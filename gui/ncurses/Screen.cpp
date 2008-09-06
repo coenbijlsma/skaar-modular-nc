@@ -12,14 +12,16 @@ void Screen::_init(){
 	scrollok(panel_window(_panel), true);
 }
 
-Screen::Screen(int lines, int cols, int y, int x ){
+Screen::Screen(SkaarSocket* sock, int lines, int cols, int y, int x ){
 	_panel = new_panel( newwin(lines, cols, y, x) );
+	_sock = sock;
 	
 	_init();
 }
 
-Screen::Screen(PANEL* panel){
+Screen::Screen(SkaarSocket* sock, PANEL* panel){
 	_panel = panel;
+	_sock = sock;
 	
 	_init();
 }
@@ -92,4 +94,16 @@ bool Screen::isActive(){
 		default:
 			return false;
 	}
+}
+
+void Screen::setReceiver(string recv){
+	_receiver = recv;
+}
+
+string Screen::getReceiver(){
+	return _receiver;
+}
+
+SkaarSocket* Screen::getSocket(){
+	return _sock;
 }

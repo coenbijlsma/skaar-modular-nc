@@ -13,7 +13,8 @@ class Screen : public AbstractGUI {
 private:
 	PANEL* _panel;
 	ScreenBuffer* _screenBuffer;
-
+	SkaarSocket* _sock;
+	string _receiver;	
 	/*
 	 * Some initial functions to be called by the 
 	 * constructor.
@@ -24,12 +25,12 @@ public:
 	 * Initializes the Screen in a new PANEL. If you use the 
 	 * default constructor, a full-screen Screen is created.
 	 */
-	Screen(int lines = 0, int cols = 0, int y = 0, int x = 0);
+	Screen(SkaarSocket* sock, int lines = 0, int cols = 0, int y = 0, int x = 0);
 	
 	/*
 	 * Initializes the Screen with the given PANEL
 	 */
-	Screen(PANEL* panel);
+	Screen(SkaarSocket* sock, PANEL* panel);
 	
 	/*
 	 * Flushes the ScreenBuffer, and then deletes the 
@@ -77,6 +78,24 @@ public:
 	 * the active one.
 	 */
 	bool isActive();
+	
+	/*
+	 * Sets who (or what) should receive the messages 
+	 * typed in this Screen.
+	 */
+	void setReceiver(string recv);
+	
+	/*
+	 * Returns who (or what) receives the messages
+	 * typed in this Screen.
+	 */
+	string getReceiver();
+	
+	/*
+	 * Returns the socket that is used when sending
+	 * data to the server.
+	 */
+	SkaarSocket* getSocket();
 	
 };
 
