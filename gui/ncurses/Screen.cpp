@@ -12,16 +12,16 @@ void Screen::_init(){
 	scrollok(panel_window(_panel), true);
 }
 
-Screen::Screen(SkaarSocket* sock, int lines, int cols, int y, int x ){
+Screen::Screen(string server, int lines, int cols, int y, int x ){
 	_panel = new_panel( newwin(lines, cols, y, x) );
-	_sock = sock;
+	_server = server;
 	
 	_init();
 }
 
-Screen::Screen(SkaarSocket* sock, PANEL* panel){
+Screen::Screen(string server, PANEL* panel){
 	_panel = panel;
-	_sock = sock;
+	_server = server;
 	
 	_init();
 }
@@ -104,6 +104,10 @@ string Screen::getReceiver(){
 	return _receiver;
 }
 
-SkaarSocket* Screen::getSocket(){
-	return _sock;
+string Screen::getServer(){
+	return _server;
+}
+
+void Screen::setServer(string server){
+	_server = server;
 }

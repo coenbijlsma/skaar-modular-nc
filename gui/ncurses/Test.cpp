@@ -1,5 +1,4 @@
 #include "Screen.h"
-#include "SkaarSocket.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,12 +12,11 @@ int main(int argc, char** argv){
 	cbreak();
 	noecho();
 	
-	SkaarSocket* sock = new SkaarSocket("localhost", 80);
-	sock->createConnection();
-	
-	Screen* scr = new Screen(sock);
-	Screen* scr1 = new Screen(sock);
-	Screen* scr2 = new Screen(sock);
+	string server = "localhost";
+		
+	Screen* scr = new Screen(server);
+	Screen* scr1 = new Screen(server);
+	Screen* scr2 = new Screen(server);
 	
 	scr->addContent("I am Screen 1");
 	scr->addContent("Dusch...");
@@ -39,7 +37,6 @@ int main(int argc, char** argv){
 	delete scr;
 	delete scr1;
 	delete scr2;
-	delete sock;
 	endwin();
 	
 	cout << "Testing done" << endl;

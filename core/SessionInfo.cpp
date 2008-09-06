@@ -23,6 +23,13 @@ AbstractGUI* SessionInfo::getActiveWindow(){
 	return (AbstractGUI*)0;
 }
 
+AbstractGUI* SessionInfo::getWindowAt(int pos){
+	if(pos >= 0 && pos < _windowlist.size()){
+		return _windowlist.at(pos);
+	}
+	return (AbstractGUI*)0;
+}
+
 vector<AbstractGUI*> SessionInfo::getWindowList(){
 	return _windowlist;
 }

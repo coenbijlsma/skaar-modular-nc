@@ -12,8 +12,8 @@ private:
 	string _password;
 
 public:
-	User(string username, string nick, string password);
-	~User();
+	SkaarUser(string username, string nick, string password);
+	virtual ~SkaarUser();
 	
 	string getUsername();
 	string getNick();

@@ -3,7 +3,6 @@
 
 #include <string>
 #include "AbstractGUI.h"
-#include "SkaarSocket.h"
 
 using namespace std;
 
@@ -13,10 +12,10 @@ using namespace std;
  */
 class TerminalGUI : public AbstractGUI {
 private:
-	SkaarSocket* _sock;
+	string _server;
 	string _receiver;
 public:
-	TerminalGUI(SkaarSocket* sock);
+	TerminalGUI(string server);
 	~TerminalGUI();
 	
 	void addContent(string content);
@@ -26,7 +25,8 @@ public:
 	bool isActive(); // NI
 	void setReceiver(string recv);
 	string getReceiver(); 
-	SkaarSocket* getSocket();
+	string getServer();
+	void setServer(string server);
 };
 
 #endif

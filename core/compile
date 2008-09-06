@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ -g -I../include/core/ -I../include/config/ -I../include/log/ -I../include/socket/ -I../include/gui/ -I../include/gui/ncurses/ -I../include/gui/term/ -I../include/tools/stringtokenizer/ -combine SessionInfo.cpp ../config/Config.cpp ../config/ConfigSection.cpp ../log/SkaarLog.cpp ../socket/SkaarSocket.cpp SkaarUser.cpp Skaar.cpp ../gui/ncurses/Screen.cpp ../gui/ncurses/ScreenBuffer.cpp ../gui/term/TerminalGUI.cpp ../tools/stringtokenizer/StringTokenizer.cpp main.cpp -lpanel -lncurses -o skaar

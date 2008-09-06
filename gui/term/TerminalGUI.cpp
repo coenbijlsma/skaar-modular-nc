@@ -1,8 +1,8 @@
 #include "TerminalGUI.h"
 #include <iostream>
 
-TerminalGUI::TerminalGUI(SkaarSocket* sock){
-	_sock = sock;
+TerminalGUI::TerminalGUI(string server){
+	_server = server;
 }
 
 TerminalGUI::~TerminalGUI(){}
@@ -33,6 +33,11 @@ string TerminalGUI::getReceiver(){
 	return _receiver;
 }
 
-SkaarSocket* TerminalGUI::getSocket(){
-	return _sock;
+string TerminalGUI::getServer(){
+	return _server;
 }
+
+void TerminalGUI::setServer(string server){
+	_server = server;
+}
+

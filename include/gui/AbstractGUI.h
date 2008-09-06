@@ -2,7 +2,6 @@
 #define ABSTRACTGUI_H
 
 #include <string>
-#include "SkaarSocket.h"
 
 using namespace std;
 
@@ -18,7 +17,8 @@ public:
 	virtual bool isActive() =0;
 	virtual void setReceiver(string recv) =0;
 	virtual string getReceiver() =0;
-	virtual SkaarSocket* getSocket() =0;
+	virtual string getServer() =0;
+	virtual void setServer(string server) =0;
 	
 };
 

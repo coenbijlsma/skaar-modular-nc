@@ -31,7 +31,7 @@ void SkaarLog::_init(){
 string SkaarLog::_getDateTime(string format = "%Y-%m-%d %H:%M:%S"){
 	time_t t_time = time(0);
 	char c_time[256];
-	strftime(c_time, sizeof(c_time, format.c_str(), localtime(&t_time));
+	strftime(c_time, sizeof(c_time), format.c_str(), localtime(&t_time));
 	return string(c_time);
 }
 
