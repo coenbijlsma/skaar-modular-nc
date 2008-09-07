@@ -26,6 +26,8 @@ public:
 	~AdminMessage();
 	
 	string getPrefix();
+	string getSenderNick();
+	string getReceiver();
 	string getCommand();
 	unsigned int getMinParams();
 	

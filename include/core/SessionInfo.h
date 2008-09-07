@@ -19,6 +19,7 @@ public:
 	SkaarUser* getUser();
 	AbstractGUI* getActiveWindow();
 	AbstractGUI* getWindowAt(int pos);
+	AbstractGUI* getWindowFor(string receiver);
 	vector<AbstractGUI*> getWindowList();
 
 	bool addWindow(AbstractGUI* window);

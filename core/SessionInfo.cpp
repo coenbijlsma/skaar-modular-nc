@@ -30,6 +30,16 @@ AbstractGUI* SessionInfo::getWindowAt(int pos){
 	return (AbstractGUI*)0;
 }
 
+AbstractGUI* SessionInfo::getWindowFor(string receiver){
+	for(int i = 0; i < _windowlist.size(); i++){
+		AbstractGUI* gui = _windowlist.at(i);
+		if( gui->getReceiver() == receiver){
+			return gui;
+		}
+	}
+	return (AbstractGUI*)0;
+}
+
 vector<AbstractGUI*> SessionInfo::getWindowList(){
 	return _windowlist;
 }

@@ -17,9 +17,16 @@ void AdminMessage::_init(){
 	}
 	
 	StringTokenizer st(_raw, ' ');
-	string tmp;
+	int paramcount = (st.count() -1); // because the command doesn't count
 	
-	if(st.count() < MINPARAMS){
+	/* Do we have a prefix? */
+	if(_raw[0] == ':'){
+		_prefix = st.next();
+		paramcount--; // Because the prefix was also in st.count()
+	}
+	
+	/* And also, do we have at least the minimum amount of parameters? */
+	if(paramcount < MINPARAMS){
 		throw string("Not enough parameters supplied in message ") + _raw;
 	}
 	
@@ -35,7 +42,18 @@ void AdminMessage::_init(){
 }
 
 string AdminMessage::getPrefix(){
-	return string;
+	return _prefix;
+}
+
+string AdminMessage::getSenderNick(){
+	string retval;
+
+	if(_prefix.length() > 0){
+		
+	}
+	
+	return retval;
+	
 }
 
 string AdminMessage::getCommand(){

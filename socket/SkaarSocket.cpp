@@ -1,7 +1,9 @@
 #include "SkaarSocket.h"
 
-SkaarSocket::SkaarSocket(char* host, int port){
+SkaarSocket::SkaarSocket(char* host, int port, string protocol){
 	_port = port;
+	_protocol = protocol;
+	
 	struct hostent* h = gethostbyname(host);
 
 	if(h == 0){
@@ -125,4 +127,8 @@ string SkaarSocket::readMessage(){
 
 int SkaarSocket::pollConnection(){
 	return poll(_pfd, 1, _pollTimeoutMSecs);
+}
+
+string SkaarSocket::getProtocol(){
+	return _protocol;
 }

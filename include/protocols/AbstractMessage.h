@@ -20,6 +20,17 @@ class AbstractMessage {
 	virtual string getPrefix() =0;
 	
 	/*
+	 * Returns the nick of the sender of 
+	 * the message.
+	 */
+	virtual string getSenderNick() =0;
+	
+	/*
+	 * Returns the receiver of the message.
+	 */
+	virtual string getReceiver() =0;
+	
+	/*
 	 * Returns the command of this message, 
 	 * say PRIVMSG
 	 */

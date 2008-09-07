@@ -3,6 +3,7 @@
 
 #include <map>
 
+#include "AbstractProtocol.h"
 #include "SessionInfo.h"
 #include "Config.h"
 #include "SkaarLog.h"
@@ -16,8 +17,18 @@ private:
 	SkaarLog* _log;
 	SessionInfo* _sessionInfo;
 	map<string, SkaarSocket*> _connections;
-	
+	map<string, AbstractProtocol*> _protocols;
 	void _init();
+	
+	/* Functions to be used by p_thread */
+	void* _hndSocketInput(void* ptr);
+	void* _hndScreenOutput(void* ptr);
+	
+	static void* _c_hndSocketInput(void* ptr);
+	static void* _c_hndScreenOutput(void* ptr);
+	
+	void _createThreads();
+	
 	
 public:
 	Skaar();

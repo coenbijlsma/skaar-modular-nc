@@ -20,24 +20,26 @@ using namespace std;
 
 class SkaarSocket {
 private:
-  struct sockaddr_in _addr;
-  struct pollfd _pfd[1];
-  int _sockfd;
-  int _port;
-  int _pollTimeoutMSecs;
-  bool _connected;
-  char* _host;
-    
+	struct sockaddr_in _addr;
+	struct pollfd _pfd[1];
+	int _sockfd;
+	int _port;
+	int _pollTimeoutMSecs;
+	bool _connected;
+	char* _host;
+	string _protocol;
+	
 public:
-  SkaarSocket(char* host, int port);
-  virtual ~SkaarSocket();
+	SkaarSocket(char* host, int port, string protocol = "rfc1459");
+	virtual ~SkaarSocket();
   
-  bool connected();
-  bool createConnection();
-  bool disconnect();
-  bool sendMessage(string msg);
-  string readMessage();
-  int pollConnection();
+	bool connected();
+	bool createConnection();
+	bool disconnect();
+	bool sendMessage(string msg);
+	string readMessage();
+	int pollConnection();
+	string getProtocol();
   
 };
 

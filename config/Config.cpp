@@ -130,8 +130,8 @@ void Config::_writeDefaultConfig(){
 	myofstream << "realname \"Lazy Foo\"" << endl;
 	myofstream << "nick myname__" << endl;
 	myofstream << "password foo" << endl;
-	myofstream << "ui /usr/local/lib/libncursesui.so" << endl;
-	myofstream << "defaultui /usr/local/lib/libdefaultui.so" << endl;
+	myofstream << "ui terminal" << endl;
+	myofstream << "defaultui ncurses" << endl;
 	myofstream << "}" << endl;
 	myofstream << endl;
 	myofstream << "# Servers" << endl;
@@ -149,6 +149,20 @@ void Config::_writeDefaultConfig(){
     myofstream << "localhost 6667" << endl;
     myofstream << "}" << endl;
     myofstream << endl;
+	myofstream << "# Protocols" << endl;
+	myofstream << "# In this section you have to specify the protocol" << endl;
+	myofstream << "# for each of the servers mentioned above." << endl;
+	myofstream << "# The protocol specification must always be in lowercase," << endl;
+	myofstream << "# and the server's name or ip must be an exact match" << endl;
+	myofstream << "# To the server mentioned in the servers section." << endl;
+	myofstream << "# The format for a protocol config line is as follows:" << endl;
+	myofstream << "# <hostname|ip> <protocol>" << endl;
+	myofstream << endl;
+	myofstream << "protocols" << endl;
+	myofstream << "{" << endl;
+	myofstream << "localhost rfc1459" << endl;
+	myofstream << "}" << endl;
+	myofstream << endl;
     myofstream << "# Channels" << endl;
     myofstream << "# You can also specify which channels" << endl;
     myofstream << "# to connect to on startup." << endl;
@@ -263,6 +277,23 @@ bool Config::writeConfig(){
 	cerr << msg << endl;
     }
     
+	/* The protocols section */
+	try{
+		myofstream << "# Protocols" << endl;
+		myofstream << "# In this section you have to specify the protocol" << endl;
+		myofstream << "# for each of the servers mentioned above." << endl;
+		myofstream << "# The protocol specification must always be in lowercase," << endl;
+		myofstream << "# and the server's name or ip must be an exact match" << endl;
+		myofstream << "# To the server mentioned in the servers section." << endl;
+		myofstream << "# The format for a protocol config line is as follows:" << endl;
+		myofstream << "# <hostname|ip> <protocol>" << endl;
+		myofstream << endl;
+		
+		_writeSection(&myofstream, string("protocols"));
+	}catch(string msg){
+		cerr << msg << endl;
+	}
+	
     /* The channels section */
     try{
 	myofstream << "# Channels" << endl;
