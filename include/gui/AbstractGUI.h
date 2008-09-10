@@ -1,6 +1,6 @@
 /**
  * @file AbstractGUI.h
- * @brief ABstraction for User Interfaces of Skaar.
+ * @brief Abstraction for User Interfaces of Skaar.
  *
  * Copyright (c) 2008 Coen Bijlsma
  *
