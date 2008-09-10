@@ -94,7 +94,7 @@ bool SkaarSocket::sendMessage(string msg){
 	return true;
 }
 
-string SkaarSocket::readMessage(){
+string SkaarSocket::readMessage(string delim){
 	int msglen;
 	if( ! _connected){
 		fprintf(stderr, "Not connected.\n");
@@ -119,6 +119,14 @@ string SkaarSocket::readMessage(){
 		}
 		
 		msglen = strlen(temp_msg);
+		
+		/* Stop if we encounter a delim (the end of the message) */
+		if(msglen >= delim.length()){
+			char* end = tmp_msg + (strlen(temp_msg) - delim.length() -1);
+			if(end == delim){
+				break;
+			}
+		}
 		break;
 	}
 	

@@ -65,6 +65,7 @@ void Skaar::_hndSocketInput(void* ptr){
 						throw string("Unsupported protocol: ") + sock->getProtocol();
 					}
 					AbstractMessage* msg = proto->translateIncoming(rawmsg);
+					
 				} /* if(rawmsg.length() > 0) */
 				
 			} /* if(sock->pollConnection > 0) */
@@ -72,6 +73,7 @@ void Skaar::_hndSocketInput(void* ptr){
 		} /* for( connections.size() etc. )... */
 		
 	} /* while(true) */
+}
 
 Skaar::Skaar(){
 	_init();

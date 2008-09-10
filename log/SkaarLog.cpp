@@ -42,6 +42,10 @@ void SkaarLog::append(string log, loglevel_t severity){
 	_entries.push_back(_entry.str());
 }
 
+void SkaarLog::append(const char* log, loglevel_t severity){
+	append(string(log), severity);
+}
+
 bool SkaarLog::save(){
 	ofstream outfile(_filename.c_str(), ios::out | ios::app);
 	
@@ -59,3 +63,6 @@ bool SkaarLog::save(){
 	return true;
 }
 
+vector<string> SkaarLog::getEntries(){
+	return _entries;
+}
