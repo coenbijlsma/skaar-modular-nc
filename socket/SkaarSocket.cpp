@@ -95,42 +95,35 @@ bool SkaarSocket::sendMessage(string msg){
 }
 
 string SkaarSocket::readMessage(string delim){
-	int msglen;
+	string temp_msg;
 	if( ! _connected){
 		fprintf(stderr, "Not connected.\n");
-		return string("");
+		return temp_msg;
 	}
 	
-	char* temp_msg = (char*)malloc(513);
-	memset(temp_msg, 0, 513);
-	
-	while(strlen(temp_msg) <= 512){
+	while(true){
 		char* chars = (char*)malloc(513);
 		memset(chars, 0, 513);
 		
 		switch(recv(_sockfd, chars, 512, 0)){
 			case 0:
-				return '\0';
+				return temp_msg;
 			case -1:
 				perror("recv");
-				return '\0';
+				return temp_msg;
 			default:
-				strcat(temp_msg, chars);
+				temp_msg.append(chars);
 		}
 		
-		msglen = strlen(temp_msg);
-		
-		/* Stop if we encounter a delim (the end of the message) */
-		if(msglen >= delim.length()){
-			char* end = tmp_msg + (strlen(temp_msg) - delim.length() -1);
+		if(temp_msg.length() >= delim.length()){
+			string end(temp_msg.substr(temp_msg.length() - delim.length()) );
 			if(end == delim){
-				break;
+				return temp_msg;
 			}
 		}
-		break;
 	}
 	
-	return string(temp_msg);
+	return temp_msg;
 }
 
 int SkaarSocket::pollConnection(){
