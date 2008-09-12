@@ -26,6 +26,12 @@ AbstractGUI* SessionInfo::getActiveWindow(){
 AbstractGUI* SessionInfo::getWindowAt(int pos){
 	if(pos >= 0 && pos < _windowlist.size()){
 		return _windowlist.at(pos);
+	}else if(pos == _windowlist.size()){
+		/* If the pos == _windowlist.size(), create a new one */
+		AbstractGUI* last = _windowlist.at(_windowlist.size(-1));
+		AbstractGUI* retval = last->create();
+		addWindow(retval);
+		return retval;
 	}
 	return (AbstractGUI*)0;
 }
@@ -38,6 +44,10 @@ AbstractGUI* SessionInfo::getWindowFor(string receiver){
 		}
 	}
 	return (AbstractGUI*)0;
+}
+
+int SessionInfo::getWindowCount(){
+	return _windowlist.size();
 }
 
 vector<AbstractGUI*> SessionInfo::getWindowList(){

@@ -42,6 +42,7 @@ private:
 	 */
 	void _init();		
 public:
+
 	/*
 	 * Initializes the Screen in a new PANEL. If you use the 
 	 * default constructor, a full-screen Screen is created.
@@ -52,6 +53,12 @@ public:
 	 * Initializes the Screen with the given PANEL
 	 */
 	Screen(string server, PANEL* panel);
+	
+	/*
+	 * Standard constructor for compatibility with the
+	 * abstraction AbstractGUI
+	 */
+	Screen();
 	
 	/*
 	 * Flushes the ScreenBuffer, and then deletes the 
@@ -120,7 +127,8 @@ public:
 	
 	/**/
 	void setServer(string server);
-	
+
+	AbstractGUI* create();	
 };
 
 #endif

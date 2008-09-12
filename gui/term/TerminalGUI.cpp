@@ -5,6 +5,8 @@ TerminalGUI::TerminalGUI(string server){
 	_server = server;
 }
 
+TerminalGUI::TerminalGUI(){}
+
 TerminalGUI::~TerminalGUI(){}
 
 void TerminalGUI::addContent(string content){
@@ -39,5 +41,9 @@ string TerminalGUI::getServer(){
 
 void TerminalGUI::setServer(string server){
 	_server = server;
+}
+
+AbstractGUI* create(){
+	return new TerminalGUI();
 }
 

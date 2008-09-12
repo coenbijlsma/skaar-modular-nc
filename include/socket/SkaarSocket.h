@@ -100,6 +100,16 @@ public:
 	int pollConnection();
 	
 	/*
+	 * Returns the host for this socket.
+	 */
+	string getHost();
+	
+	/*
+	 * Returns the port for this socket.
+	 */
+	int getPort();
+	
+	/*
 	 * Returns the protocol of the server
 	 * this socket sends and receives to and from.
 	 */

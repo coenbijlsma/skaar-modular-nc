@@ -13,6 +13,8 @@ using namespace std;
 
 class Skaar {
 private:
+	bool _continueListening;
+	
 	Config* _config;
 	SkaarLog* _log;
 	SessionInfo* _sessionInfo;

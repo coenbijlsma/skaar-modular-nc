@@ -58,8 +58,11 @@ public:
 	
 	/*
 	 * Returns the AbstractGUI* at position pos.
-	 * If that position doesn't exist, a 0 pointer
-	 * is returned.
+	 * If pos is equal to the position after the
+	 * last one, a new window is returned.
+	 * Apart from the above exception, if the
+	 * position is not in the list of windows,
+	 * an (AbstractGUI*)0 is returned.
 	 */
 	AbstractGUI* getWindowAt(int pos);
 	
@@ -70,6 +73,12 @@ public:
 	 * (AbstractGUI*)0 is returned.
 	 */
 	AbstractGUI* getWindowFor(string receiver);
+	
+	/*
+	 * Returns the amount of windows currently
+	 * in the list.
+	 */
+	int getWindowCount();
 	
 	/*
 	 * Returns all the currently available windows.

@@ -18,40 +18,42 @@ void Skaar::_init(){
 									, _config->getValue("core", "nick")
 									, _config->getValue("core", "password"));
 	
-	//cout << "Setting up sessioninfo" << endl;
 	/* Setup the session-info */
 	_sessionInfo = new SessionInfo(user);
 	
-	//cout << "Initializing UI" << endl;
 	/* Initialize the UI */
 	if(_config->getValue("core", "defaultui") == "ncurses"){
-		cout << "ncurses UI" << endl;
 		initscr();
 		cbreak();
-		//noecho();
+		// noecho();
+
 		Screen* scr = new Screen("foo");
-		cout << "Adding new window" << endl;
 		if(_sessionInfo->addWindow(scr)){
-			cout << "Succes!" << endl;
+			// log it
 		}else{
-			cout << "FAIL!" << endl;
+			// log it
 		}
 	}else{
-		cout << "terminal UI" << endl;
 		TerminalGUI* tgui = new TerminalGUI("foo");
-		_sessionInfo->addWindow(tgui);
+		if(_sessionInfo->addWindow(tgui)){
+			// log it
+		}else{
+			// log it
+		}
 	}
 	
-	//cout << "Adding some content" << endl;
+	/* Get the GUI and put some welcome-test in it.*/
+	// XXX put that in a config file
 	AbstractGUI* gui = _sessionInfo->getWindowAt(0);
 	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port>] to connect.\n");
+	gui->setReceiver(_sessionInfo->getUser()->getNick());
 	gui->setActive(true);
 	
 }
 
 void Skaar::_hndSocketInput(void* ptr){
 	// XXX this while(true)
-	while(true){
+	while(_continueListening){
 		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connectiond.end(); it++){
 			SkaarSocket* sock = it->second;
 			
@@ -62,9 +64,43 @@ void Skaar::_hndSocketInput(void* ptr){
 				if(rawmsg.length() > 0){
 					AbstractProtocol* proto = _protocols[sock->getProtocol()];
 					if(proto == 0){
+						// log it and present the error to the user
 						throw string("Unsupported protocol: ") + sock->getProtocol();
 					}
 					AbstractMessage* msg = proto->translateIncoming(rawmsg);
+					
+					/* 
+					 * Try to find the correct window, otherwise print the output to
+					 * the screen at(0)
+					 */
+					string receiver = msg->getSenderNick();
+					AbstractGUI* gui;
+					
+					if(receiver.length() == 0){
+						/*
+						 * Redirect messages without a specific receiver to the screen for the
+						 * current user logged in.
+						 */
+						gui = _sessionInfo->getWindowFor(_sessionInfo->getUser()->getNick());
+					}else{
+						gui = _sessionInfo->getWindowFor(receiver);
+					}
+					
+					if(gui == 0){
+						// Create a new window if the receiver doesn't exist
+						gui = _sessionInfo->getWindowAt(_sessionInfo->getWindowCount());
+						gui->setReceiver(receiver);
+						gui->setServer(sock->getHost());
+						
+						// Temporary solution, to replaced by a decent statusbar
+						AbstractGUI* usergui = _sessionInfo->getWindowFor(_sessionInfo->getUser()->getNick());
+						string infotext("[INFO] A new window has been opened for ");
+						infotext.append(receiver);
+						infotext.append("\n");
+						usergui->addContent(infotext);
+					}
+					
+					gui->addContent(msg->format(""));
 					
 				} /* if(rawmsg.length() > 0) */
 				

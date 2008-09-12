@@ -99,6 +99,12 @@ public:
 	 */
 	virtual void setServer(string server) =0;
 	
+	/*
+	 * Creates a new AbstractGUI, so the
+	 * classes and/or functions that use this
+	 * class don't have to know how to do that.
+	 */
+	virtual AbstractGUI* create();
 };
 
 #endif

@@ -14,7 +14,7 @@ int main(int argc, char** argv){
 	
 	string server = "localhost";
 		
-	Screen* scr = new Screen(server);
+	AbstractGUI* scr = new Screen(server);
 	Screen* scr1 = new Screen(server);
 	Screen* scr2 = new Screen(server);
 	

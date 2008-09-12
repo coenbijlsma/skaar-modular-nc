@@ -39,6 +39,13 @@ public:
 	 * Constructor.
 	 */
 	TerminalGUI(string server);
+	
+	/*
+	 * Standard constructor for compatibility
+	 * with the abstraction AbstractGUI
+	 */
+	TerminalGUI();
+	
 	~TerminalGUI();
 	
 	/*
@@ -99,6 +106,8 @@ public:
 	 * screen are sent to.
 	 */
 	void setServer(string server);
+	
+	AbstractGUI* create();
 };
 
 #endif

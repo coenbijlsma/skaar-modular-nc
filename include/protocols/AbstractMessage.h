@@ -47,6 +47,8 @@ class AbstractMessage {
 	
 	/*
 	 * Returns the receiver of the message.
+	 * If no receiver is present, this method
+	 * returns an empty string.
 	 */
 	virtual string getReceiver() =0;
 	
@@ -65,8 +67,7 @@ class AbstractMessage {
 	/*
 	 * Returns a string formatted according to the
 	 * given format string.
-	 * No specific format is mandatory here, because 
-	 * you need to create your own implementation anyway.
+	 * XXX The format should be: ...
 	 */
 	virtual string format(string format) =0;
 	

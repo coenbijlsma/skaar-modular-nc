@@ -101,6 +101,10 @@ string SkaarSocket::readMessage(string delim){
 		return temp_msg;
 	}
 	
+	/* 
+	XXX Maybe fix this? 
+	
+	*/
 	while(true){
 		char* chars = (char*)malloc(513);
 		memset(chars, 0, 513);
@@ -128,6 +132,14 @@ string SkaarSocket::readMessage(string delim){
 
 int SkaarSocket::pollConnection(){
 	return poll(_pfd, 1, _pollTimeoutMSecs);
+}
+
+string SkaarSocket::getHost(){
+	return _host;
+}
+
+int SkaarSocket::getPort(){
+	return _port;
 }
 
 string SkaarSocket::getProtocol(){

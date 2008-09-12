@@ -26,6 +26,11 @@ Screen::Screen(string server, PANEL* panel){
 	_init();
 }
 
+Screen::Screen(){
+	_panel = new_panel( newwin(0, 0, 0, 0) );
+	_init();
+}
+
 Screen::~Screen(){
 	delete _screenBuffer;
 	WINDOW* win = panel_window(_panel);
@@ -110,4 +115,8 @@ string Screen::getServer(){
 
 void Screen::setServer(string server){
 	_server = server;
+}
+
+AbstractGUI* Screen::create(){
+	return new Screen();
 }
