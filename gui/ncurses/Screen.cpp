@@ -13,6 +13,12 @@ void Screen::_init(){
 }
 
 Screen::Screen(string server, int lines, int cols, int y, int x ){
+	if(lines > (LINES -2)){
+		lines = LINES -2;
+	}
+	if(cols > COLS){
+		cols = cols;
+	}
 	_panel = new_panel( newwin(lines, cols, y, x) );
 	_server = server;
 	
@@ -21,13 +27,18 @@ Screen::Screen(string server, int lines, int cols, int y, int x ){
 
 Screen::Screen(string server, PANEL* panel){
 	_panel = panel;
+	WINDOW* win = newwin( (LINES -2), COLS, 0, 0);
+	WINDOW* old_win = panel_window(panel);
+	replace_panel(_panel, win);
+	delwin(old_win);
+	
 	_server = server;
 	
 	_init();
 }
 
 Screen::Screen(){
-	_panel = new_panel( newwin(0, 0, 0, 0) );
+	_panel = new_panel( newwin(LINES -2, COLS, 0, 0) );
 	_init();
 }
 

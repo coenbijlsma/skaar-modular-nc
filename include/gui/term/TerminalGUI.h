@@ -33,6 +33,7 @@ class TerminalGUI : public AbstractGUI {
 private:
 	string _server;
 	string _receiver;
+	
 public:
 
 	/*
@@ -46,7 +47,7 @@ public:
 	 */
 	TerminalGUI();
 	
-	~TerminalGUI();
+	virtual ~TerminalGUI();
 	
 	/*
 	 * Puts the content on the screen.

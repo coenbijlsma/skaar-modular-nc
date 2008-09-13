@@ -1,6 +1,8 @@
 #include "Skaar.h"
 #include "SkaarUser.h"
 #include "Screen.h"
+#include "NCursesInputReader.h"
+#include "TerminalInputReader.h"
 #include "TerminalGUI.h"
 #include <iostream> // testing
 
@@ -28,6 +30,7 @@ void Skaar::_init(){
 		// noecho();
 
 		Screen* scr = new Screen("foo");
+		_sessionInfo->setInputReader(new NCursesInputReader());
 		if(_sessionInfo->addWindow(scr)){
 			// log it
 		}else{
@@ -35,6 +38,7 @@ void Skaar::_init(){
 		}
 	}else{
 		TerminalGUI* tgui = new TerminalGUI("foo");
+		_sessionInfo->setInputReader(new TerminalInputReader());
 		if(_sessionInfo->addWindow(tgui)){
 			// log it
 		}else{
@@ -111,6 +115,13 @@ void Skaar::_hndSocketInput(void* ptr){
 	} /* while(true) */
 }
 
+void* Skaar::_hndScreenOutput(void* ptr){
+	while(_continueListening){
+		string line = _sessionInfo->getInputReader()->readLine();
+		
+	} /* while(true) */
+}
+ 
 Skaar::Skaar(){
 	_init();
 }

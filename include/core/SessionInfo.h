@@ -22,6 +22,7 @@
 #include <vector>
 #include "SkaarUser.h"
 #include "AbstractGUI.h"
+#include "AbstractInputReader.h"
 
 using namespace std;
 
@@ -29,7 +30,8 @@ class SessionInfo {
 private:
 	SkaarUser* _user;
 	vector<AbstractGUI*> _windowlist;
-		
+	AbstractInputReader* _inputReader;
+	
 public:
 	
 	/*
@@ -91,6 +93,10 @@ public:
 	 * already exists in the list.
 	 */
 	bool addWindow(AbstractGUI* window);
+	
+	AbstractInputReader* getInputReader();
+	
+	void setInputReader(AbstractInputReader* reader);
 	
 };
 
