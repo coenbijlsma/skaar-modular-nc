@@ -52,6 +52,7 @@ void Skaar::_init(){
 	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port>] to connect.\n");
 	gui->setReceiver(_sessionInfo->getUser()->getNick());
 	gui->setActive(true);
+	_createThreads();
 	
 }
 
@@ -115,10 +116,36 @@ void Skaar::_hndSocketInput(void* ptr){
 	} /* while(true) */
 }
 
+// XXX When commands are implemented, look for them over here
 void* Skaar::_hndScreenOutput(void* ptr){
 	while(_continueListening){
 		string line = _sessionInfo->getInputReader()->readLine();
+		string server = _sessionInfo->getActiveWindow()->getServer();
+		SkaarSocket* sock = _connections[server];
 		
+		if(sock == 0){
+			continue;
+		}
+		AbstractProtocol* proto = _protocols[sock->getProtocol()];
+		
+		if(proto == 0){
+			continue;
+		}
+		
+		string msg = proto->toProtocolString(line);
+		
+		if(msg.length() == 0){
+			continue;
+		}
+		
+		if( ! sock->sendMessage(msg) ){
+			AbstractGUI* first = _sessionInfo->getWindowAt(0);
+			string fail("Could not send message ");
+			fail.append(line);
+			fail.append('\n');
+			
+			first->addContent(fail);
+		}
 	} /* while(true) */
 }
  
@@ -133,4 +160,26 @@ Skaar::~Skaar(){
 	delete _log;
 }
 
+static void* Skaar::_c_hndSocketInput(void* ptr){
+	Skaar* s = static_cast<Skaar*>(ptr);
+	s->hndSocketInput(ptr);
+}
 
+static void* Skaar::_c_hndScreenOutput(void* ptr){
+	Skaar* s = static_cast<Skaar*>(ptr);
+	s->hndScreenOutput(ptr);
+}
+
+void Skaar::_createThreads(){
+	pthread_t inputThread, outputThread;
+	
+	char* imsg = "Input";
+	char* omsg = "Output";
+	int iret, oret;
+	
+	iret = pthread_create(&inputThread, NULL, Skaar::_c_hndSocketInput, (void*)imsg);
+	oret = pthread_create(&outputThread, NULL, Skaar::_c_hndScreenOutput, (void*)omsg);
+	
+	pthread_join( inputThread, NULL);
+	pthread_join( outputThread, NULL);
+}

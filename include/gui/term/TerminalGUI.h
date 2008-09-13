@@ -31,6 +31,8 @@ using namespace std;
  */
 class TerminalGUI : public AbstractGUI {
 private:
+	static const char _NEWLINE = '\n';
+	
 	string _server;
 	string _receiver;
 	
