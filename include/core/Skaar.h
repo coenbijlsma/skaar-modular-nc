@@ -22,16 +22,13 @@ private:
 	map<string, AbstractProtocol*> _protocols;
 	void _init();
 	
-	/* Functions to be used by p_thread */
-	void* _hndSocketInput(void* ptr);
-	void* _hndScreenOutput(void* ptr);
+	/* Functions for the threads */
+	void _hndSocketInput();
+	void _hndScreenOutput();
+	void _createThreads();
 	
 	static void* _c_hndSocketInput(void* ptr);
 	static void* _c_hndScreenOutput(void* ptr);
-	
-	void _createThreads();
-	
-	
 public:
 	Skaar();
 	virtual ~Skaar();

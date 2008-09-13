@@ -5,6 +5,7 @@
 #include "TerminalInputReader.h"
 #include "TerminalGUI.h"
 #include <iostream> // testing
+#include <pthread.h>
 
 /*******************************************************************************
  * 							PRIVATE FUNCTIONS								   *
@@ -56,7 +57,8 @@ void Skaar::_init(){
 	
 }
 
-void Skaar::_hndSocketInput(void* ptr){
+// XXX Not all messages have to be shown on the screen
+void Skaar::_hndSocketInput(){
 	// XXX this while(true)
 	while(_continueListening){
 		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connectiond.end(); it++){
@@ -117,7 +119,7 @@ void Skaar::_hndSocketInput(void* ptr){
 }
 
 // XXX When commands are implemented, look for them over here
-void* Skaar::_hndScreenOutput(void* ptr){
+void Skaar::_hndScreenOutput(){
 	while(_continueListening){
 		string line = _sessionInfo->getInputReader()->readLine();
 		string server = _sessionInfo->getActiveWindow()->getServer();
@@ -160,26 +162,23 @@ Skaar::~Skaar(){
 	delete _log;
 }
 
+void Skaar::_createThreads(){
+	pthread_t input, output;
+	int iret, oret;
+	
+	iret = pthread_create(&input, NULL, Skaar::_c_hndSocketInput, (void*)this);
+	oret = pthread_create(&output, NULL, Skaar::_c_hndScreenOutput, (void*)this);
+	
+	pthread_join( input, NULL);
+	pthread_join( output, NULL);
+}
+
 static void* Skaar::_c_hndSocketInput(void* ptr){
-	Skaar* s = static_cast<Skaar*>(ptr);
-	s->hndSocketInput(ptr);
+	Skaar* s = (Skaar*)ptr;
+	s->_hndSocketInput();
 }
 
 static void* Skaar::_c_hndScreenOutput(void* ptr){
-	Skaar* s = static_cast<Skaar*>(ptr);
-	s->hndScreenOutput(ptr);
-}
-
-void Skaar::_createThreads(){
-	pthread_t inputThread, outputThread;
-	
-	char* imsg = "Input";
-	char* omsg = "Output";
-	int iret, oret;
-	
-	iret = pthread_create(&inputThread, NULL, Skaar::_c_hndSocketInput, (void*)imsg);
-	oret = pthread_create(&outputThread, NULL, Skaar::_c_hndScreenOutput, (void*)omsg);
-	
-	pthread_join( inputThread, NULL);
-	pthread_join( outputThread, NULL);
+	Skaar* s = (Skaar*)ptr;
+	s->_hndScreenOutput();
 }
