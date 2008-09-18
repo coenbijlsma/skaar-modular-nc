@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include "AbstractMessage.h"
+#include "AbstractAction.h"
 
 using namespace std;
 
@@ -55,7 +56,17 @@ class AbstractProtocol {
 	 * Returns whether the provided message is 
 	 * registered at this protocol.
 	 */
-	virtual bool isRegistered(string message) =0;
+	virtual bool isRegisteredMessage(string message) =0;
+	
+	virtual bool registerAction(AbstractAction* action) =0;
+	
+	virtual bool unregisterAction(AbstractAction* action) =0;
+	
+	virtual bool unregisterAction(string actionName) =0;
+	
+	virtual bool isRegisteredAction(AbstractAction* action) =0;
+	
+	virtual bool isRegisteredAction(string actionName) =0;
 	
 	/*
 	 * Tries to translate a raw string from the SkaarSocket
