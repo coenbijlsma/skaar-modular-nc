@@ -26,12 +26,23 @@
 
 using namespace std;
 
+/*
+ * This class is an extra interface on top of AbstractMessage,
+ * that you can use for messages that imply an action.
+ * For example, sometimes when a message is received, the server expects
+ * that you send back another message.
+ * Another example is that a user joins a channel (in case of,
+ * let's say, IRC), and the list of users must be edited to 
+ * stay accurate.
+ */
 class AbstractActionMessage : public AbstractMessage {
 public:
 
 	virtual ~AbstactActionMessage(){}
 	
 	virtual string getAction() =0;
+	
+	virtual bool execute() =0;
 };
 
 
