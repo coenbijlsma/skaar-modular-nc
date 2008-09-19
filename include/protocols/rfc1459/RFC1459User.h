@@ -27,29 +27,31 @@ using namespace std;
 
 class RFC1459User {
 private:
-	string _name;
+	static const string _ALLOWED_FLAGS = "iwso";
+	string _nick;
 	string _realName;
-	int _flags;
+	string _flags;
 
+	boolean _isLegal(char flag);
 public:
-	static const int NO_FLAGS = 0;
-	static const int INVISIBLE = 1;
-	static const int SERVER_NOTICES = 2;
-	static const int WALLOPS = 4;
-	static const int OPERATOR = 8;
+	static const char NO_FLAGS = '\0';
+	static const char INVISIBLE = 'i';
+	static const char SERVER_NOTICES = 's';
+	static const char WALLOPS = 'w';
+	static const char OPERATOR = 'o';
 	
-	RFC1459User(string name, string realname, int flags);
+	RFC1459User(string name, string realname, string flags);
 	~RFC1459User();
 	
-	string getName();
+	string getNick();
 	
 	string getRealName();
 	
-	int getFlags();
+	string getFlags();
 	
-	void setFlag(int flag, bool enabled);
+	void setFlag(char flag, bool enabled);
 	
-	bool hasFlag(int flag);
+	bool hasFlag(char flag);
 	
 };
 
