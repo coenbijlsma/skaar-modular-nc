@@ -25,6 +25,7 @@
 #include <vector>
 #include "AbstractMessage.h"
 #include "AbstractAction.h"
+#include "SessionInfo.h"
 
 using namespace std;
 
@@ -82,7 +83,7 @@ class AbstractProtocol {
 	 * so this is actually the way to translate user input
 	 * and send it awayyyyy.
 	 */
-	virtual string toProtocolString(string raw) =0;
+	virtual string toProtocolString(SessionInfo* sessionInfo, string raw) =0;
 };
 
 #endif

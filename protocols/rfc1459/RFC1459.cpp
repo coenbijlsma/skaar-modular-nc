@@ -69,10 +69,34 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 	/* XXX */
 }
 
-string RFC1459::toProtocolString(string raw){
+string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 	/* If raw starts with a slash, it contains the command. If not, it's a PRIVMSG */
 	if(raw[0] == '/'){
 	}else{
 	}
 	return string;
+}
+
+void RFC1459::addJoinedChannel(RFC1459Channel* chan){
+	for(int i = 0; i < _joinedChannels.size(); i++){
+		if(_joinedChannels.at(i)->getName() == chan->getName()){
+			return;
+		}
+	}
+
+	_joinedChannels.push_back(chan);
+}
+
+void RFC1459::removeJoinedChannel(RFC1459Channel* chan){
+	removeJoinedChannel(chan->getName());
+}
+
+void RFC1459::removeJoinedChannel(string name){
+	for(vector<RFC1459Channel*>::iterator it = _joinedChannels.begin(); it != _joinedChanneld.end(); it++){
+		if( (it*)->getName() == name){
+			RFC1459Channel* chan = (it*);
+			_joinedChannels.erase(it);
+			delete chan;
+		}
+	}
 }

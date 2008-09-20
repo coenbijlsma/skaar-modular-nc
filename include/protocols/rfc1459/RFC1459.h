@@ -25,13 +25,15 @@
 #include <vector>
 #include "AbstractProtocol.h"
 #include "AbstractMessage.h"
+#include "RFC1459Channel.h"
 
 using namespace std;
 
 class RFC1459 : public AbstractProtocol {
 private:
 	vector<string> _registeredMessages;
-	
+	vector<RFC1459Channel*> _joinedChannels;
+		
 public:
 	
 	/*
@@ -91,7 +93,24 @@ public:
 	 * Is creates a string formatted for the RFC1459 protocol from a string
 	 * that has been entered by the user.
 	 */
-	string toProtocolString(string raw);
+	string toProtocolString(SessionInfo* sessionInfo, string raw);
+	
+	/*
+	 * Adds a channel to the list of joined channels.
+	 */
+	void addJoinedChannel(RFC1459Channel* chan);
+	
+	/*
+	 * Removes the specified channel from the list
+	 * of joined channels and destroys it.
+	 */
+	void removeJoinedChannel(RFC1459Channel* chan);
+	
+	/*
+	 * Convenience-method for removeJoinedChannel(RFC1459Channel* chan)
+	 */
+	void removeJoinedChannel(string name);
+	
 	
 };
 

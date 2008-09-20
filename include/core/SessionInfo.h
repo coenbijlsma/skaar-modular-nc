@@ -94,8 +94,14 @@ public:
 	 */
 	bool addWindow(AbstractGUI* window);
 	
+	/*
+	 * GET INPUTREADER
+	 */
 	AbstractInputReader* getInputReader();
 	
+	/*
+	 * SET INPUTREADER
+	 */
 	void setInputReader(AbstractInputReader* reader);
 	
 };

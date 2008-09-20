@@ -8,7 +8,7 @@
 #include <pthread.h>
 
 /*******************************************************************************
- * 							PRIVATE FUNCTIONS								   *
+ *			     PRIVATE FUNCTIONS				       *
  ******************************************************************************/
 void Skaar::_init(){
 	/* Read the config */
@@ -18,8 +18,8 @@ void Skaar::_init(){
 	_log = new SkaarLog("skaar.log");
 	
 	SkaarUser* user = new SkaarUser(_config->getValue("core", "realname")
-									, _config->getValue("core", "nick")
-									, _config->getValue("core", "password"));
+					, _config->getValue("core", "nick")
+					, _config->getValue("core", "password"));
 	
 	/* Setup the session-info */
 	_sessionInfo = new SessionInfo(user);
@@ -134,7 +134,7 @@ void Skaar::_hndScreenOutput(){
 			continue;
 		}
 		
-		string msg = proto->toProtocolString(line);
+		string msg = proto->toProtocolString(_sessionInfo, line);
 		
 		if(msg.length() == 0){
 			continue;
