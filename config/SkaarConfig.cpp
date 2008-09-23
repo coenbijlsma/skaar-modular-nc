@@ -1,7 +1,7 @@
-#include "Config.h"
+#include "SkaarConfig.h"
 #include "StringTokenizer.h"
 
-Config::Config(string filename){
+SkaarConfig::SkaarConfig(string filename){
 	_filename = filename;
 	
 	ifstream _ifstream(_filename.c_str(), ios::in);
@@ -27,19 +27,19 @@ Config::Config(string filename){
 	_filename = filename;
 }
 
-Config::~Config(){
+SkaarConfig::~SkaarConfig(){
 	writeConfig();
 	
-	map<string, ConfigSection*>::iterator iter;
+	map<string, SkaarConfigSection*>::iterator iter;
 	for(iter = _sections.begin(); iter != _sections.end(); iter++){
-		ConfigSection* sec = _sections[iter->first];
+		SkaarConfigSection* sec = _sections[iter->first];
 		delete sec;
 	}
 	
 	_sections.clear();
 }
 
-void Config::_init(){
+void SkaarConfig::_init(){
 	ifstream _ifstream(_filename.c_str(), ios::in);
 	
 	if( ! _ifstream.is_open()){
@@ -48,14 +48,14 @@ void Config::_init(){
 	}
 	
 	string _line;
-	ConfigSection* _section = 0;
+	SkaarConfigSection* _section = 0;
 	bool _inSection = false;
 	
 	while(getline(_ifstream, _line)){
 	
 		if( ( ! _line.empty()) && _line.at(0) != '#'){
 			if( ! _inSection){
-				_section = new ConfigSection(_line);
+				_section = new SkaarConfigSection(_line);
 				_inSection = true;
 			}else{
 				if(_line.at(0) != '{' && _line.at(0) != '}'){
@@ -91,12 +91,12 @@ void Config::_init(){
 	
 }
 
-void Config::_writeSection(ofstream* fs, string name){
+void SkaarConfig::_writeSection(ofstream* fs, string name){
 	if( ! (*fs).is_open()){
 		throw string("Could not access file ") + _filename;
 	}
 	
-	ConfigSection* _section = _sections[name];
+	SkaarConfigSection* _section = _sections[name];
 	map<string, string> _entries = _section->all();
 	map<string, string>::iterator it;
 	
@@ -112,7 +112,7 @@ void Config::_writeSection(ofstream* fs, string name){
 	(*fs) << endl;
 }
 
-void Config::_writeDefaultConfig(){
+void SkaarConfig::_writeDefaultConfig(){
 	ofstream myofstream;
 	myofstream.open(_filename.c_str(), ios::out | ios::app);
 	
@@ -201,8 +201,8 @@ void Config::_writeDefaultConfig(){
 }
 
 /* Returns the section that has the provided name */
-ConfigSection* Config::getSection(string name){
-    map<string, ConfigSection*>::iterator it = _sections.find(name);
+SkaarConfigSection* SkaarConfig::getSection(string name){
+    map<string, SkaarConfigSection*>::iterator it = _sections.find(name);
     
     if(it == _sections.end()){
 	return 0;
@@ -212,32 +212,32 @@ ConfigSection* Config::getSection(string name){
 }
 
 /* Returns the value of the provided setting in setting */
-string Config::getValue(string section, string setting){
-    map<string, ConfigSection*>::iterator it = _sections.find(section);
+string SkaarConfig::getValue(string section, string setting){
+    map<string, SkaarConfigSection*>::iterator it = _sections.find(section);
     
     if(it == _sections.end()){
 	return "";
     }
     
-    ConfigSection* scs = _sections[section];
+    SkaarConfigSection* scs = _sections[section];
     return scs->get(setting);
 }
 
 /* Sets or overwrites a settings' value */
-void Config::setSetting(string section, string setting, string value){
-    map<string, ConfigSection*>::iterator it = _sections.find(section);
+void SkaarConfig::setSetting(string section, string setting, string value){
+    map<string, SkaarConfigSection*>::iterator it = _sections.find(section);
     
     if(it == _sections.end()){
 	throw string("Section ") + section + string(" does not exist.");
     }
     
-    ConfigSection* scs = _sections[section];
+    SkaarConfigSection* scs = _sections[section];
     
     scs->set(setting, value);
 }
 
 /* Writes the config to a file */
-bool Config::writeConfig(){
+bool SkaarConfig::writeConfig(){
     //cout << "DEBUG: Writing config." << endl;
     
     ofstream myofstream(_filename.c_str(), ios::in);

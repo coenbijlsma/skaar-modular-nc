@@ -21,6 +21,7 @@
 
 #include <vector>
 #include "SkaarUser.h"
+#include "SkaarConfig.h"
 #include "AbstractGUI.h"
 #include "AbstractInputReader.h"
 
@@ -29,6 +30,7 @@ using namespace std;
 class SessionInfo {
 private:
 	SkaarUser* _user;
+	SkaarConfig* _config;
 	vector<AbstractGUI*> _windowlist;
 	AbstractInputReader* _inputReader;
 	
@@ -39,7 +41,7 @@ public:
 	 * Sets the user after it checks whether
 	 * the user == 0, and throws a string if so.
 	 */
-	SessionInfo(SkaarUser* user);
+	SessionInfo(SkaarUser* user, SkaarConfig* config);
 	
 	/*
 	 * Destructor. Does nothing at this time.
@@ -51,6 +53,12 @@ public:
 	 * this session.
 	 */
 	SkaarUser* getUser();
+	
+	/*
+	 * Returns the configuration for
+	 * the current instance of Skaar.
+	 */
+	SkaarConfig* getConfig();
 	
 	/*
 	 * Returns the currently active window.

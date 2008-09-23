@@ -1,5 +1,5 @@
-#include "Config.h"
-#include "ConfigSection.h"
+#include "SkaarConfig.h"
+#include "SkaarConfigSection.h"
 #include <iostream>
 #include <string>
 
@@ -15,8 +15,8 @@ int main(int argc, char** argv){
 		return 0;
 	}
 	
-	Config* config = new Config(string(argv[1]));
-	ConfigSection* cs = config->getSection(string(argv[2]));
+	SkaarConfig* config = new SkaarConfig(string(argv[1]));
+	SkaarConfigSection* cs = config->getSection(string(argv[2]));
 	
 	cout << argv[2] << " for " << argv[3] << ": " << cs->get(string(argv[3])) << endl;
 	

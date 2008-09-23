@@ -59,16 +59,6 @@ class AbstractProtocol {
 	 */
 	virtual bool isRegisteredMessage(string message) =0;
 	
-	virtual bool registerAction(AbstractAction* action) =0;
-	
-	virtual bool unregisterAction(AbstractAction* action) =0;
-	
-	virtual bool unregisterAction(string actionName) =0;
-	
-	virtual bool isRegisteredAction(AbstractAction* action) =0;
-	
-	virtual bool isRegisteredAction(string actionName) =0;
-	
 	/*
 	 * Tries to translate a raw string from the SkaarSocket
 	 * to a decent AbstractMessage. 

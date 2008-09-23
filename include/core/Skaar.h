@@ -5,7 +5,7 @@
 
 #include "AbstractProtocol.h"
 #include "SessionInfo.h"
-#include "Config.h"
+#include "SkaarConfig.h"
 #include "SkaarLog.h"
 #include "SkaarSocket.h"
 #include "AbstractAction.h"
@@ -16,7 +16,6 @@ class Skaar {
 private:
 	bool _continueListening;
 	
-	Config* _config;
 	SkaarLog* _log;
 	SessionInfo* _sessionInfo;
 	map<string, SkaarSocket*> _connections;

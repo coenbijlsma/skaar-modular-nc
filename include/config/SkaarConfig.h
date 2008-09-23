@@ -1,5 +1,5 @@
 /**
- * @file Config.h
+ * @file SkaarConfig.h
  * @brief Representation of a configfile
  *
  * Copyright (c) 2008 Coen Bijlsma
@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef SKAARCONFIG_H
+#define SKAARCONFIG_H
 
-#include "ConfigSection.h"
+#include "SkaarConfigSection.h"
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -29,10 +29,10 @@
 
 using namespace std;
 
-class Config {
+class SkaarConfig {
 private:
 	string _filename;
-	map<string, ConfigSection*> _sections;
+	map<string, SkaarConfigSection*> _sections;
 	
 	/*
 	 * Tries to read the configfile and fill
@@ -71,28 +71,28 @@ public:
 	 * stops.
 	 * @throws string If all hope has gone.
 	 */
-	Config(string filename = "skaar.conf.default");
+	SkaarConfig(string filename = "skaar.conf.default");
 	
 	/*
 	 * Writes the current config to the configfile, and
 	 * cleans up the map of sections, effectively calling
 	 * their destructors.
 	 */
-	virtual ~Config();
+	virtual ~SkaarConfig();
 	
 	/*
-	 * Looks for the requested ConfigSection.
+	 * Looks for the requested SkaarConfigSection.
 	 * Returns it if it exists, otherwise returns
-	 * a (ConfigSection*)0 pointer.
+	 * a (SkaarConfigSection*)0 pointer.
 	 */
-	ConfigSection* getSection(string name);
+	SkaarConfigSection* getSection(string name);
 	
 	/*
 	 * Tries to locate the requested section and setting.
 	 * If either doesn't exist, this function returns an
 	 * empty string.
-	 * Otherwise calls get() on the ConfigSection.
-	 * @see ConfigSection.h
+	 * Otherwise calls get() on the SkaarConfigSection.
+	 * @see SkaarConfigSection.h
 	 */
 	string getValue(string section, string setting);
 	

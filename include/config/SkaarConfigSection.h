@@ -1,5 +1,5 @@
 /**
- * @file ConfigSection.h
+ * @file SkaarConfigSection.h
  * @brief A section in a configfile
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
  */
  
-#ifndef CONFIGSECTION_H
-#define CONFIGSECTION_H
+#ifndef SKAARCONFIGSECTION_H
+#define SKAARCONFIGSECTION_H
 
 #include <string>
 #include <map>
 
 using namespace std;
 
-class ConfigSection {
+class SkaarConfigSection {
 private:
 	string _name;
 	map<string, string> _entries;
@@ -34,15 +34,15 @@ public:
 	/*
 	 * Constructor.
 	 */
-	ConfigSection(string name);
+	SkaarConfigSection(string name);
 	
 	/*
 	 * Destructor. Does nothing at this time.
 	 */
-	virtual ~ConfigSection();
+	virtual ~SkaarConfigSection();
 	
 	/*
-	 * Returns the name of this ConfigSection
+	 * Returns the name of this SkaarConfigSection
 	 */
 	string name();
 	
@@ -60,7 +60,7 @@ public:
 	void set(string setting, string value);
 	
 	/*
-	 * Returns all the entries for this ConfigSection.
+	 * Returns all the entries for this SkaarConfigSection.
 	 */
 	map<string, string> all();
 };

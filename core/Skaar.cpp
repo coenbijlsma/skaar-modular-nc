@@ -11,21 +11,21 @@
  *			     PRIVATE FUNCTIONS				       *
  ******************************************************************************/
 void Skaar::_init(){
-	/* Read the config */
-	_config = new Config("skaar.conf");
-	
 	/* Create a logfile */
 	_log = new SkaarLog("skaar.log");
+
+	SkaarConfig* config = new SkaarConfig("skaar.conf");
+		
+	SkaarUser* user = new SkaarUser(config->getValue("core", "realname")
+					, config->getValue("core", "nick")
+					, config->getValue("core", "password"));
 	
-	SkaarUser* user = new SkaarUser(_config->getValue("core", "realname")
-					, _config->getValue("core", "nick")
-					, _config->getValue("core", "password"));
 	
 	/* Setup the session-info */
-	_sessionInfo = new SessionInfo(user);
+	_sessionInfo = new SessionInfo(user, config);
 	
 	/* Initialize the UI */
-	if(_config->getValue("core", "defaultui") == "ncurses"){
+	if(_sessionInfo->getConfig()->getValue("core", "defaultui") == "ncurses"){
 		initscr();
 		cbreak();
 		// noecho();

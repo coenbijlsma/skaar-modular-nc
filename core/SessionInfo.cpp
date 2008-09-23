@@ -1,16 +1,24 @@
 #include "SessionInfo.h"
 
-SessionInfo::SessionInfo(SkaarUser* user){
+SessionInfo::SessionInfo(SkaarUser* user, SkaarConfig* config){
 	if(user == 0){
 		throw string("The user for the SessionInfo may not be NULL");
 	}
+	if(config == 0){
+		throw string("I simply refuse to handle empty configurations.");
+	}
 	_user = user;
+	_config = config;
 }
 
 SessionInfo::~SessionInfo(){}
 
 SkaarUser* SessionInfo::getUser(){
 	return _user;
+}
+
+SkaarConfig* SessionInfo::getConfig(){
+	return _config;
 }
 
 AbstractGUI* SessionInfo::getActiveWindow(){
