@@ -137,6 +137,7 @@ void Skaar::_hndScreenOutput(){
 		string msg = proto->toProtocolString(_sessionInfo, line);
 		
 		if(msg.length() == 0){
+			//XXX see if it's a SkaarCommand, otherwise continue
 			continue;
 		}
 		
