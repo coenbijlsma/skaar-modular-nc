@@ -111,7 +111,11 @@ public:
 	 */
 	void removeJoinedChannel(string name);
 	
-	
+	/*
+	 * Returns a sequence of string that must be sent to the server
+	 * in order to register the current user.
+	 */
+	vector<string> getRegisterSequence(SessionInfo* sessionInfo);
 };
 
 #endif

@@ -1,15 +1,15 @@
-#include "AdminMessage.h"
+#include "PassMessage.h"
 #include "StringTokenizer.h"
 
-AdminMessage::AdminMessage(RFC1459* protocol, string raw){
+PassMessage::PassMessage(RFC1459* protocol, string raw){
 	_raw = raw;
 	_protocol = protocol;
 	_init();
 }
 
-AdminMessage::~AdminMessage(){}
+PassMessage::~PassMessage(){}
 
-void AdminMessage::_init(){
+void PassMessage::_init(){
 
 	/* Check if the raw message is empty */
 	if(_raw.empty()){
@@ -30,7 +30,7 @@ void AdminMessage::_init(){
 		throw string("Not enough parameters supplied in message ") + _raw;
 	}
 	
-	/* Check if the message really is an ADMIN message */
+	/* Check if the message really is an PASS message */
 	if(st.next().substr(1) != COMMAND){
 		throw string("Not a(n) ") + COMMAND + string(" message: ") + _raw;
 	}
@@ -41,11 +41,11 @@ void AdminMessage::_init(){
 	}
 }
 
-string AdminMessage::getPrefix(){
+string PassMessage::getPrefix(){
 	return _prefix;
 }
 
-string AdminMessage::getSenderNick(){
+string PassMessage::getSenderNick(){
 	string retval;
 
 	if(_prefix.length() > 0){
@@ -56,16 +56,16 @@ string AdminMessage::getSenderNick(){
 	
 }
 
-string AdminMessage::getCommand(){
+string PassMessage::getCommand(){
 	return COMMAND;
 }
 
-unsigned int AdminMessage::getMinParams(){
+unsigned int PassMessage::getMinParams(){
 	return MINPARAMS;
 }
 
 /* %pr = prefix, %cmd = command, %par = params */
-string AdminMessage::format(string format = ""){
+string PassMessage::format(string format = ""){
 	if(format != ""){
 		string::size_type pr_loc = format.find("%pr", 0);
 		if(pr_loc != string::npos){
@@ -104,10 +104,10 @@ string AdminMessage::format(string format = ""){
 		
 }
 
-vector<string> AdminMessage::getParams(){
+vector<string> PassMessage::getParams(){
 	return _params;
 }
 
-RFC1459* AdminMessage::getProtocol(){
+RFC1459* PassMessage::getProtocol(){
 	return _protocol;
 }

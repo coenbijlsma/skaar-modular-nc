@@ -1,6 +1,7 @@
 #include "RFC1459.h"
 #include "StringTokenizer.h"
 #include <cctype> // std::toupper
+#include <stdlib.h>
 
 /* The messages from RFC1459 */
 #include "AdminMessage.h"
@@ -99,4 +100,52 @@ void RFC1459::removeJoinedChannel(string name){
 			delete chan;
 		}
 	}
+}
+
+vector<string> RFC1459::getRegisterSequence(SessionInfo* sessionInfo){
+	vector<string> reg;
+	
+	string passwd = sessionInfo->getConfig()->getValue("core", "password");
+	string nick = sessionInfo->getConfig()->getValue("core", "nick");
+	char* user = getenv("USER");
+	string realname = sessionInfo->getConfig()->getValue("core", "realname");
+	
+	if(passwd.size() == 0){
+		throw string("No password defined.");
+	}
+	if(nick.size() == 0){
+		throw string("No nick specified");
+	}
+	if(realname.size() == 0 && user == 0){
+		throw string("No user information found");
+	}
+	if(realname.size() == 0 && user != 0){
+		realname = string(user);
+	}
+	if(user == 0 && realname.size() > 0){
+		user = const_cast<char*>(realname.c_str());
+	}
+		
+	string pass_msg = "PASS ";
+	
+	pass_msg.append(passwd);
+	pass_msg.append(1, '\r');
+	pass_msg.append(1, '\n');
+	reg.push_back(pass_msg);
+	
+	string nick_msg = "NICK ";
+	nick_msg.append(nick);
+	nick_msg.append(1, '\r');
+	nick_msg.append(1, '\n');
+	reg.push_back(nick_msg);
+	
+	string user_msg = "USER ";
+	user_msg.append(user);
+	user_msg.append(" foo bar ");
+	user_msg.append(realname);
+	user_msg.append(1, '\r');
+	user_msg.append(1, '\n');
+	reg.push_back(user_msg);
+	
+	return reg;
 }

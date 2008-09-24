@@ -1,5 +1,5 @@
 /**
- * @file AdminMessage.h
+ * @file PassMessage.h
  * @brief Implementation for the ADMIN message of RFC1459
  *
  * Copyright (c) 2008 Coen Bijlsma
@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ADMINMESSAGE_H
-#define ADMINMESSAGE_H
+#ifndef PASSMESSAGE_H
+#define PASSMESSAGE_H
 
 #include <string>
 #include <vector>
@@ -29,42 +29,40 @@
 using namespace std;
 
 /**
- * Command: 	ADMIN
- * Parameters: 	[<server>]
+ * Command:		PASS
+ * Parameters:	<password>
  *
- * The admin message is used to find the name of the administrator of the given
- * server, or current server if <server> parameter is omitted. Each server must
- * have the ability to forward ADMIN messages to other servers.
+ * The PASS command is used to set a 'connection password'. The password can and
+ * must be set before any attempt to register the connection is made. Currently
+ * this requires that clients send a PASS command before sending the NICK/USER
+ * combination and servers *must* send a PASS command before any SERVER command.
+ * The password supplied must match the one contained in the C/N lines
+ * (for servers) or I lines (for clients). It is possible to send multiple PASS
+ * commands before registering but only the last one sent is used for
+ * verification and it may not be changed once registered. 
  *
  * Numeric Replies:
- * ERR_NOSUCHSERVER 	
- * RPL_ADMINME 		RPL_ADMINLOC1
- * RPL_ADMINLOC2 	RPL_ADMINEMAIL
+ * ERR_NEEDMOREPARAMS 	ERR_ALREADYREGISTRED
  * 
- * Examples:
+ * Example:
  *
- * ADMIN tolsun.oulu.fi     ; request an ADMIN reply from
- *                          tolsun.oulu.fi
- *
- * :WiZ ADMIN *.edu         ; ADMIN request from WiZ for first
- *                          server found to match *.edu.
+ * PASS secretpasswordhere
  */
-class AdminMessage : public AbstractMessage {
+class PassMessage : public AbstractMessage {
 private:
 	RFC1459* _protocol;
 	string _raw;
 	string _prefix;
 	vector<string> _params;
-	SkaarUser* _user;
 	
 	void _init();
 
 public:
-	static const string COMMAND = "ADMIN";
-	static const unsigned int MINPARAMS = 0;
+	static const string COMMAND = "PASS";
+	static const unsigned int MINPARAMS = 1;
 	
-	AdminMessage(RFC1459* protocol, string raw);
-	~AdminMessage();
+	PassMessage(RFC1459* protocol, string raw);
+	~PassMessage();
 	
 	string getPrefix();
 	string getSenderNick();

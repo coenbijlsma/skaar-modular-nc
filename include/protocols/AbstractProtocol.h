@@ -74,6 +74,18 @@ class AbstractProtocol {
 	 * and send it awayyyyy.
 	 */
 	virtual string toProtocolString(SessionInfo* sessionInfo, string raw) =0;
+	
+	/*
+	 * Returns the sequence of strings to be sent to the server that serves
+	 * this protocol, in order to register successfully. 
+	 * Each string in the vector is then translated to an AbstractMessage
+	 * and sent to the server.
+	 * The messages are sent in the order they are in the vector, so make
+	 * sure that you place them right.
+	 * For an example of a register sequence, you can have a look at the 
+	 * implementation of this method in the RFC1459 protocol.
+	 */
+	virtual vector<string> getRegisterSequence(SessionInfo* sessionInfo) =0;
 };
 
 #endif
