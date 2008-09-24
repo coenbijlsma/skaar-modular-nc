@@ -5,6 +5,11 @@
 
 /* The messages from RFC1459 */
 #include "AdminMessage.h"
+#include "PassMessage.h"
+#include "NickMessage.h"
+#include "UserMessage.h"
+#include "JoinMessage.h"
+#include "PrivmsgMessage.h"
 
 RFC1459::RFC1459(){}
 
@@ -74,6 +79,15 @@ string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 	/* If raw starts with a slash, it contains the command. If not, it's a PRIVMSG */
 	if(raw[0] == '/'){
 	}else{
+		/* We have a PRIVMSG */
+		string receiver = sessionInfo->getActiveGUI()->getReceiver();
+		string final_raw("PRIVMSG ");
+		final_raw.append(receiver);
+		final_raw.append(" ");
+		final_raw.append(raw);
+		final_raw.append(1, '\r');
+		final_raw.append(1, '\n');
+		return final_raw;
 	}
 	return string;
 }

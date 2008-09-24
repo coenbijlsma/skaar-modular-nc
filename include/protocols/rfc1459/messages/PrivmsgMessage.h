@@ -1,6 +1,6 @@
 /**
- * @file PassMessage.h
- * @brief Implementation for the PASS message of RFC1459
+ * @file PrivmsgMessage.h
+ * @brief Implementation for the PRIVMSG message of RFC1459
  *
  * Copyright (c) 2008 Coen Bijlsma
  *
@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PASSMESSAGE_H
-#define PASSMESSAGE_H
+#ifndef PRIVMSGMESSAGE_H
+#define PRIVMSGMESSAGE_H
 
 #include <string>
 #include <vector>
@@ -29,26 +29,8 @@
 using namespace std;
 
 /**
- * Command:		PASS
- * Parameters:	<password>
- *
- * The PASS command is used to set a 'connection password'. The password can and
- * must be set before any attempt to register the connection is made. Currently
- * this requires that clients send a PASS command before sending the NICK/USER
- * combination and servers *must* send a PASS command before any SERVER command.
- * The password supplied must match the one contained in the C/N lines
- * (for servers) or I lines (for clients). It is possible to send multiple PASS
- * commands before registering but only the last one sent is used for
- * verification and it may not be changed once registered. 
- *
- * Numeric Replies:
- * ERR_NEEDMOREPARAMS 	ERR_ALREADYREGISTRED
- * 
- * Example:
- *
- * PASS secretpasswordhere
  */
-class PassMessage : public AbstractMessage {
+class PrivmsgMessage : public AbstractMessage {
 private:
 	RFC1459* _protocol;
 	string _raw;
@@ -58,11 +40,11 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "PASS";
-	static const unsigned int MINPARAMS = 1;
+	static const string COMMAND = "PRIVMSG";
+	static const unsigned int MINPARAMS = 2;
 	
-	PassMessage(RFC1459* protocol, string raw);
-	~PassMessage();
+	PrivmsgMessage(RFC1459* protocol, string raw);
+	~PrivmsgMessage();
 	
 	string getPrefix();
 	string getSenderNick();
@@ -77,4 +59,4 @@ public:
 	RFC1459* getProtocol();
 };
 
-#endif /* PASSMESSAGE_H */
+#endif /* PRIVMSGMESSAGE_H */
