@@ -6,9 +6,10 @@
 #include "TerminalGUI.h"
 #include <iostream> // testing
 #include <pthread.h>
+#include <vector>
 
 /*******************************************************************************
- *			     PRIVATE FUNCTIONS				       *
+ *			     PRIVATE FUNCTIONS										       *
  ******************************************************************************/
 void Skaar::_init(){
 	/* Create a logfile */
@@ -50,11 +51,21 @@ void Skaar::_init(){
 	/* Get the GUI and put some welcome-test in it.*/
 	// XXX put that in a config file
 	AbstractGUI* gui = _sessionInfo->getWindowAt(0);
-	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port>] to connect.\n");
+	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port> [proto=rfc1459]] to connect.\n");
 	gui->setReceiver(_sessionInfo->getUser()->getNick());
 	gui->setActive(true);
 	_createThreads();
 	
+}
+
+AbstractProtocol* Skaar::_findProtocol(string name){
+	map<string, AbstractProtocol*>::iterator it = _protocols.find(name);
+	
+	if(it = _protocols.end()){
+		return (AbstractProtocol*)0;
+	}
+	
+	return (*it).second;
 }
 
 // XXX Not all messages have to be shown on the screen
@@ -69,7 +80,9 @@ void Skaar::_hndSocketInput(){
 				string rawmsg = sock->readMessage();
 				
 				if(rawmsg.length() > 0){
-					AbstractProtocol* proto = _protocols[sock->getProtocol()];
+					AbstractProtocol* proto = _findProtocol(sock->getProtocol());
+					// XX replace this by _protocols.find()
+					
 					if(proto == 0){
 						// log it and present the error to the user
 						throw string("Unsupported protocol: ") + sock->getProtocol();
@@ -183,3 +196,48 @@ static void* Skaar::_c_hndScreenOutput(void* ptr){
 	Skaar* s = (Skaar*)ptr;
 	s->_hndScreenOutput();
 }
+
+/*******************************************************************************
+ *			     			PUBLIC FUNCTIONS							       *
+ ******************************************************************************/
+
+SessionInfo* Skaar::getSessionInfo(){
+	return _sessionInfo;
+}
+
+bool Skaar::registerAtConnection(SkaarSocket* sock){
+	// first, check of the socket already exists
+	if( _connections.find(sock->getProtocol()) != _connections.end()){
+		return true;
+		// XXX log that you are already registered
+	}
+	
+	if( ! sock->connected()){
+		if( ! sock->createConnection() ){
+			return false;
+			// XXX log it
+		}
+	}
+	
+	// Find the protocol
+	AbstractProtocol* proto = _findProtocol(sock->getProtocol());
+	
+	if(proto == 0{
+		return false;
+		// XXX log it
+	}
+	
+	vector<string> regsequence = proto->getRegisterSequence(_sessionInfo);
+
+	for(int i = 0; i < regsequence.size(); i++){	
+		if( ! sock->sendMessage(regsequence.at(i)) ){
+			return false;
+			// XXX log it
+		}
+	}
+	
+	// finally, add the socket to the list.
+	_connections[sock->getProtocol()] = sock;
+	return true;
+}
+

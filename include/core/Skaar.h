@@ -21,6 +21,7 @@ private:
 	map<string, SkaarSocket*> _connections;
 	map<string, AbstractProtocol*> _protocols;
 	void _init();
+	AbstractProtocol* _findProtocol(string name);
 	
 	/* Functions for the threads */
 	void _hndSocketInput();
@@ -35,7 +36,8 @@ public:
 
 	SessionInfo* getSessionInfo();
 	
-	void registerAtConnection(SkaarSocket* sock);
+	/* Callback-method for commands */
+	bool registerAtConnection(SkaarSocket* sock);
 };
 
 #endif

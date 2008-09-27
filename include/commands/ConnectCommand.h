@@ -8,7 +8,7 @@
 using namespace std;
 
 /*
- * Syntax: /connect <server> [<port> <proto=rfc1459>]
+ * Syntax: /connect <server> [<port> [proto=rfc1459]]
  * port and protocol are only optional if the server is
  * defined in the config-file
  */
