@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Skaar {
+class Skaar : public CommandHandler {
 private:
 	bool _continueListening;
 	
@@ -35,6 +35,7 @@ public:
 
 	SessionInfo* getSessionInfo();
 	
+	void registerAtConnection(SkaarSocket* sock);
 };
 
 #endif
