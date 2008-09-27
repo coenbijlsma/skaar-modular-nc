@@ -34,7 +34,7 @@ public:
 	virtual ~Skaar();
 
 	SessionInfo* getSessionInfo();
-		
+	
 };
 
 #endif
