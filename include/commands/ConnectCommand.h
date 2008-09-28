@@ -22,6 +22,8 @@ private:
 	string _proto;
 	
 public:
+	static const string COMMAND = "CONNECT";
+	
 	ConnectCommand(string raw);
 	~ConnectCommand();
 	

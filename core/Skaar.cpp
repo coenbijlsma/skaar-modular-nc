@@ -4,6 +4,9 @@
 #include "NCursesInputReader.h"
 #include "TerminalInputReader.h"
 #include "TerminalGUI.h"
+#include "CommandFactory.h"
+#include "AbstractCommand.h"
+
 #include <iostream> // testing
 #include <pthread.h>
 #include <vector>
@@ -72,7 +75,7 @@ AbstractProtocol* Skaar::_findProtocol(string name){
 void Skaar::_hndSocketInput(){
 	// XXX this while(true)
 	while(_continueListening){
-		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connectiond.end(); it++){
+		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connections.end(); it++){
 			SkaarSocket* sock = it->second;
 			
 			if(sock->pollConnection() > 0){
@@ -137,7 +140,8 @@ void Skaar::_hndScreenOutput(){
 		string line = _sessionInfo->getInputReader()->readLine();
 		string server = _sessionInfo->getActiveWindow()->getServer();
 		SkaarSocket* sock = _connections[server];
-		
+		AbstractGUI* fist = _sessionInfo->getWindowAt(0); // for printing statusmessages
+				
 		if(sock == 0){
 			continue;
 		}
@@ -150,17 +154,27 @@ void Skaar::_hndScreenOutput(){
 		string msg = proto->toProtocolString(_sessionInfo, line);
 		
 		if(msg.length() == 0){
-			//XXX see if it's a SkaarCommand, otherwise continue
-			continue;
-		}
-		
-		if( ! sock->sendMessage(msg) ){
-			AbstractGUI* first = _sessionInfo->getWindowAt(0);
-			string fail("Could not send message ");
-			fail.append(line);
-			fail.append('\n');
+			// Check if maybe it's a command
+			AbstractCommand* cmd = CommandFactory::translate(line);
 			
-			first->addContent(fail);
+			if(cmd == 0){
+				continue;
+			}
+			cmd->setCommandHandler(this);
+			if( ! cmd->execute()){
+				string failcmd("Executing command failed for command ");
+				failcmd.append(line);
+				failcmd.append(1, '\n');
+				
+				first->addContent(failcmd);
+			}
+			
+		}else if( ! sock->sendMessage(msg) ){
+			string failmsg("Could not send message ");
+			failmsg.append(line);
+			failmsg.append(1, '\n');
+			
+			first->addContent(failmsg);
 		}
 	} /* while(true) */
 }

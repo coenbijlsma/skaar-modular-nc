@@ -1,8 +1,22 @@
 #include "ConnectCommand.h"
 #include "StringTokenizer.h"
 #include "SkaarSocket.h"
+#include "stringtools.h"
 
 ConnectCommand::ConnectCommand(string raw){
+	StringTokenizer st(raw, ' ');
+	string command = st.next();
+	
+	if(command[0] != '/'){
+		string fail("Not a command: ");
+		fail.append(raw);
+		throw fail;
+	}else{
+		command = command.substr(1);
+	}
+	
+	strtoupper(command);
+		
 }
 
 ConnectCommand::~ConnectCommand(){}
@@ -16,6 +30,11 @@ void ConnectCommand::setCommandHandler(CommandHandler* handler){
 }
 
 bool ConnectCommand::execute(){
+	if(_handler == 0){
+		return false;
+		// XXX log it
+	}
+	
 	if(_port == 0 || _proto.size() == 0){
 		string configport = _handler->getSessionInfo->getConfig()->getValue("servers", _server);
 		
