@@ -23,6 +23,8 @@ private:
 	
 public:
 	static const string COMMAND = "CONNECT";
+	static const int MINPARAMS = 1;
+	static const int MAXPARAMS = 3;
 	
 	ConnectCommand(string raw);
 	~ConnectCommand();

@@ -16,7 +16,26 @@ ConnectCommand::ConnectCommand(string raw){
 	}
 	
 	strtoupper(command);
-		
+	_command = command;
+	
+	if(st.count() > (MAXPARAMS +1)){
+		throw string("Too many parameters in connect command.");
+	}
+	if(st.count() == MINPARAMS){
+		// the command itself also counts in st.count()
+		throw string("Not enough parameters in connect command");
+	}
+	
+	_server = st.next();
+	
+	if(st.hasNext()){
+		_port = atoi( (st.next()).c_str());
+	}
+	if(st.hasNext()){
+		_proto = st.next();
+	}else{
+		_proto = "rfc1459";
+	}
 }
 
 ConnectCommand::~ConnectCommand(){}
