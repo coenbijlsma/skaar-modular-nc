@@ -64,7 +64,7 @@ public:
 	 * Flushes the ScreenBuffer, and then deletes the 
 	 * PANEL and the WINDOW that sits therein.
 	 */
-	~Screen();
+	virtual ~Screen();
 	
 	/*
 	 * Returns the PANEL that this Screen writes to.

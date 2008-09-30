@@ -4,9 +4,7 @@
 
 int main(int argc, char** argv){
 	Skaar* skaar = new Skaar();
-	int i;
-	cout << "Press a key to exit" << endl;
-	cin >> i;
+	while(1){}
 	delete skaar;
 	return 0;
 }

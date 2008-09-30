@@ -58,7 +58,6 @@ void Skaar::_init(){
 	gui->setReceiver(_sessionInfo->getUser()->getNick());
 	gui->setActive(true);
 	_createThreads();
-	
 }
 
 AbstractProtocol* Skaar::_findProtocol(string name){

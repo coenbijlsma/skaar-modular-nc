@@ -32,7 +32,7 @@ public:
 	/*
 	 * Destructor.
 	 */	
-	virtual ~AbstractGUI() {};
+	 virtual ~AbstractGUI() {};
 	
 	/*
 	 * Adds the provided content string to the
@@ -104,7 +104,8 @@ public:
 	 * classes and/or functions that use this
 	 * class don't have to know how to do that.
 	 */
-	virtual AbstractGUI* create();
+	virtual AbstractGUI* create() =0;
+	
 };
 
 #endif
