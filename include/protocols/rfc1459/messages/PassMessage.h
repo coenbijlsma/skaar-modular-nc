@@ -58,7 +58,7 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "PASS";
+	static const string COMMAND;
 	static const unsigned int MINPARAMS = 1;
 	
 	PassMessage(RFC1459* protocol, string raw);

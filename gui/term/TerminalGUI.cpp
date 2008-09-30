@@ -43,7 +43,7 @@ void TerminalGUI::setServer(string server){
 	_server = server;
 }
 
-AbstractGUI* create(){
+AbstractGUI* TerminalGUI::create(){
 	return new TerminalGUI();
 }
 

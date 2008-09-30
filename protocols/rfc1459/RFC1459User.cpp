@@ -1,5 +1,7 @@
 #include "RFC1459User.h"
 
+const string RFC1459User::_ALLOWED_FLAGS = "iwso";
+
 RFC1459User::RFC1459User(string nick, string realName, string flags){
 	for(int i = 0; i < flags.size(); i++){
 		if( ! _isLegal(flags[i]) ){
@@ -14,7 +16,7 @@ RFC1459User::RFC1459User(string nick, string realName, string flags){
 RFC1459User::~RFC1459User(){}
 
 bool RFC1459User::_isLegal(char flag){
-	return !(_ALLOWED_FLAGS.find(flag, 0) == string::npos):
+	return !(_ALLOWED_FLAGS.find(flag, 0) == string::npos);
 }
 
 string RFC1459User::getNick(){
@@ -34,7 +36,7 @@ void RFC1459User::setFlag(char flag, bool enabled){
 		throw string("Flag already set");
 	}
 	
-	if( ! _isValid(flag) ){
+	if( ! _isLegal(flag) ){
 		throw string("Invalid flag");
 	}
 	

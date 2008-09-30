@@ -32,7 +32,7 @@ public:
 	/*
 	 * Destructor.
 	 */	
-	virtual ~AbstractGUI() {}
+	virtual ~AbstractGUI() {};
 	
 	/*
 	 * Adds the provided content string to the

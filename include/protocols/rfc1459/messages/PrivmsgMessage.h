@@ -40,7 +40,7 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "PRIVMSG";
+	static const string COMMAND;
 	static const unsigned int MINPARAMS = 2;
 	
 	PrivmsgMessage(RFC1459* protocol, string raw);

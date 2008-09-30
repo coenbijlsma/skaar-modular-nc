@@ -27,8 +27,10 @@
 
 using namespace std;
 
-class AbstractMessage {
+class AbstractProtocol;
 
+class AbstractMessage {
+public:
 	virtual ~AbstractMessage(){}
 	
 	/*

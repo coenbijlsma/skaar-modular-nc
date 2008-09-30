@@ -24,13 +24,13 @@
 #include <string>
 #include <vector>
 #include "AbstractMessage.h"
-#include "AbstractAction.h"
+//#include "AbstractAction.h"
 #include "SessionInfo.h"
 
 using namespace std;
 
 class AbstractProtocol {
-	
+public:
 	virtual ~AbstractProtocol(){}
 	
 	/*
@@ -86,6 +86,11 @@ class AbstractProtocol {
 	 * implementation of this method in the RFC1459 protocol.
 	 */
 	virtual vector<string> getRegisterSequence(SessionInfo* sessionInfo) =0;
+	
+	/*
+	 * Returns the message separator for this protocol
+	 */
+	virtual string getMessageSeparator() =0;
 };
 
 #endif

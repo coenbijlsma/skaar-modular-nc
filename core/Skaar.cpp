@@ -35,7 +35,7 @@ void Skaar::_init(){
 		// noecho();
 
 		Screen* scr = new Screen("foo");
-		_sessionInfo->setInputReader(new NCursesInputReader());
+		_sessionInfo->setInputReader( (AbstractInputReader*)new NCursesInputReader());
 		if(_sessionInfo->addWindow(scr)){
 			// log it
 		}else{
@@ -43,7 +43,7 @@ void Skaar::_init(){
 		}
 	}else{
 		TerminalGUI* tgui = new TerminalGUI("foo");
-		_sessionInfo->setInputReader(new TerminalInputReader());
+		_sessionInfo->setInputReader( (AbstractInputReader*)new TerminalInputReader());
 		if(_sessionInfo->addWindow(tgui)){
 			// log it
 		}else{
@@ -64,7 +64,7 @@ void Skaar::_init(){
 AbstractProtocol* Skaar::_findProtocol(string name){
 	map<string, AbstractProtocol*>::iterator it = _protocols.find(name);
 	
-	if(it = _protocols.end()){
+	if(it == _protocols.end()){
 		return (AbstractProtocol*)0;
 	}
 	
@@ -77,10 +77,15 @@ void Skaar::_hndSocketInput(){
 	while(_continueListening){
 		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connections.end(); it++){
 			SkaarSocket* sock = it->second;
+			AbstractProtocol* proto = _findProtocol(sock->getProtocol());
+			
+			if(proto == 0){
+				continue;
+			}
 			
 			if(sock->pollConnection() > 0){
 				// There is data, so do something about that
-				string rawmsg = sock->readMessage();
+				string rawmsg = sock->readMessage(proto->getMessageSeparator());
 				
 				if(rawmsg.length() > 0){
 					AbstractProtocol* proto = _findProtocol(sock->getProtocol());
@@ -140,7 +145,7 @@ void Skaar::_hndScreenOutput(){
 		string line = _sessionInfo->getInputReader()->readLine();
 		string server = _sessionInfo->getActiveWindow()->getServer();
 		SkaarSocket* sock = _connections[server];
-		AbstractGUI* fist = _sessionInfo->getWindowAt(0); // for printing statusmessages
+		AbstractGUI* first = _sessionInfo->getWindowAt(0); // for printing statusmessages
 				
 		if(sock == 0){
 			continue;
@@ -186,7 +191,6 @@ Skaar::Skaar(){
 Skaar::~Skaar(){
 	endwin();
 	delete _sessionInfo;
-	delete _config;
 	delete _log;
 }
 
@@ -201,12 +205,12 @@ void Skaar::_createThreads(){
 	pthread_join( output, NULL);
 }
 
-static void* Skaar::_c_hndSocketInput(void* ptr){
+void* Skaar::_c_hndSocketInput(void* ptr){
 	Skaar* s = (Skaar*)ptr;
 	s->_hndSocketInput();
 }
 
-static void* Skaar::_c_hndScreenOutput(void* ptr){
+void* Skaar::_c_hndScreenOutput(void* ptr){
 	Skaar* s = (Skaar*)ptr;
 	s->_hndScreenOutput();
 }
@@ -236,7 +240,7 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 	// Find the protocol
 	AbstractProtocol* proto = _findProtocol(sock->getProtocol());
 	
-	if(proto == 0{
+	if(proto == 0){
 		return false;
 		// XXX log it
 	}

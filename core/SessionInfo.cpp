@@ -36,9 +36,9 @@ AbstractGUI* SessionInfo::getWindowAt(int pos){
 		return _windowlist.at(pos);
 	}else if(pos == _windowlist.size()){
 		/* If the pos == _windowlist.size(), create a new one */
-		AbstractGUI* last = _windowlist.at(_windowlist.size(-1));
+		AbstractGUI* last = _windowlist.at(_windowlist.size() -1);
 		AbstractGUI* retval = last->create();
-		retval->setInputReader(last->getInputReader()); // Use the same InputReader
+		//retval->setInputReader(last->getInputReader()); // Use the same InputReader
 		addWindow(retval);
 		return retval;
 	}
@@ -73,10 +73,10 @@ bool SessionInfo::addWindow(AbstractGUI* window){
 	return true;
 }
 
-AbstractInputReader SessionInfo::getInputReader(){
+AbstractInputReader* SessionInfo::getInputReader(){
 	return _inputReader;
 }
 
 void SessionInfo::setInputReader(AbstractInputReader* reader){
-	_reader = inputReader;
+	_inputReader = reader;
 }

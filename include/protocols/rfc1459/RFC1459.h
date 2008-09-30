@@ -116,6 +116,8 @@ public:
 	 * in order to register the current user.
 	 */
 	vector<string> getRegisterSequence(SessionInfo* sessionInfo);
+	
+	string getMessageSeparator();
 };
 
 #endif

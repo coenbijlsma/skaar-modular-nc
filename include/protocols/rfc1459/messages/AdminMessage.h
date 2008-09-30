@@ -60,7 +60,7 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "ADMIN";
+	static const string COMMAND;
 	static const unsigned int MINPARAMS = 0;
 	
 	AdminMessage(RFC1459* protocol, string raw);
@@ -70,7 +70,7 @@ public:
 	string getSenderNick();
 	string getReceiver();
 	string getCommand();
-	unsigned int getMinParams();
+	unsigned int minParams();
 	
 	/**/
 	string format(string format);

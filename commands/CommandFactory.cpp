@@ -4,7 +4,7 @@
 
 #include "ConnectCommand.h"
 
-static AbstractCommand* CommandFactory::translate(string raw){
+AbstractCommand* CommandFactory::translate(string raw){
 	StringTokenizer st(raw, ' ');
 	
 	string command = st.next();

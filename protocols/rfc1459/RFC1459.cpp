@@ -6,8 +6,8 @@
 /* The messages from RFC1459 */
 #include "AdminMessage.h"
 #include "PassMessage.h"
-#include "NickMessage.h"
 #include "UserMessage.h"
+#include "NickMessage.h"
 #include "JoinMessage.h"
 #include "PrivmsgMessage.h"
 
@@ -16,7 +16,7 @@ RFC1459::RFC1459(){}
 RFC1459::~RFC1459(){}
 
 vector<string> RFC1459::registeredMessages(){
-	return _registeredMessages();
+	return _registeredMessages;
 }
 
 bool RFC1459::registerMessage(string message){
@@ -70,7 +70,7 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 		if( ! isRegistered(AdminMessage::COMMAND)){
 			registerMessage(AdminMessage::COMMAND);
 		}
-		return m;
+		return (AbstractMessage*)m;
 	}
 	/* XXX */
 }
@@ -80,7 +80,7 @@ string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 	if(raw[0] == '/'){
 	}else{
 		/* We have a PRIVMSG */
-		string receiver = sessionInfo->getActiveGUI()->getReceiver();
+		string receiver = sessionInfo->getActiveWindow()->getReceiver();
 		string final_raw("PRIVMSG ");
 		final_raw.append(receiver);
 		final_raw.append(" ");
@@ -89,7 +89,7 @@ string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 		final_raw.append(1, '\n');
 		return final_raw;
 	}
-	return string;
+	return string("");
 }
 
 void RFC1459::addJoinedChannel(RFC1459Channel* chan){
@@ -107,9 +107,9 @@ void RFC1459::removeJoinedChannel(RFC1459Channel* chan){
 }
 
 void RFC1459::removeJoinedChannel(string name){
-	for(vector<RFC1459Channel*>::iterator it = _joinedChannels.begin(); it != _joinedChanneld.end(); it++){
-		if( (it*)->getName() == name){
-			RFC1459Channel* chan = (it*);
+	for(vector<RFC1459Channel*>::iterator it = _joinedChannels.begin(); it != _joinedChannels.end(); it++){
+		if( (*it)->getName() == name){
+			RFC1459Channel* chan = (*it);
 			_joinedChannels.erase(it);
 			delete chan;
 		}
@@ -143,23 +143,27 @@ vector<string> RFC1459::getRegisterSequence(SessionInfo* sessionInfo){
 	string pass_msg = "PASS ";
 	
 	pass_msg.append(passwd);
-	pass_msg.append(1, '\r');
-	pass_msg.append(1, '\n');
+	pass_msg.append(this->getMessageSeparator());
 	reg.push_back(pass_msg);
 	
 	string nick_msg = "NICK ";
 	nick_msg.append(nick);
-	nick_msg.append(1, '\r');
-	nick_msg.append(1, '\n');
+	nick_msg.append(this->getMessageSeparator());
 	reg.push_back(nick_msg);
 	
 	string user_msg = "USER ";
 	user_msg.append(user);
 	user_msg.append(" foo bar ");
 	user_msg.append(realname);
-	user_msg.append(1, '\r');
-	user_msg.append(1, '\n');
+	user_msg.append(this->getMessageSeparator());
 	reg.push_back(user_msg);
 	
 	return reg;
+}
+
+string RFC1459::getMessageSeparator(){
+	string s;
+	s.append(1, '\r');
+	s.append(1, '\n');
+	return s;
 }

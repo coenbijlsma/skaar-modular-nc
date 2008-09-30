@@ -72,8 +72,8 @@ using namespace std;
 */
 class RFC1459Channel {
 private:
-	static const string _ALLOWED_FLAGS = "opsitnmbv";
-	static const string _ALLOWED_TYPES = "&#";
+	static const string _ALLOWED_FLAGS;
+	static const string _ALLOWED_TYPES;
 	
 	string _name;
 	char _type;
@@ -89,7 +89,7 @@ public:
 	 * Throws a string if (one of) the flag(s) or the type
 	 * are invalid.
 	 */
-	RFC1459Channel(char type, string name, string flags);
+	RFC1459Channel(char type, string name, unsigned int limit, string key, string flags);
 	
 	/*
 	 * Destructor.

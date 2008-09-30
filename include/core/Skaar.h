@@ -8,7 +8,8 @@
 #include "SkaarConfig.h"
 #include "SkaarLog.h"
 #include "SkaarSocket.h"
-#include "AbstractAction.h"
+#include "CommandHandler.h"
+//#include "AbstractAction.h"
 
 using namespace std;
 

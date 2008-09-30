@@ -1,17 +1,17 @@
-#include "AdminMessage.h"
+#include "NickMessage.h"
 #include "StringTokenizer.h"
 
-const string AdminMessage::COMMAND = "ADMIN";
+const string NickMessage::COMMAND = "NICK";
 
-AdminMessage::AdminMessage(RFC1459* protocol, string raw){
+NickMessage::NickMessage(RFC1459* protocol, string raw){
 	_raw = raw;
 	_protocol = protocol;
 	_init();
 }
 
-AdminMessage::~AdminMessage(){}
+NickMessage::~NickMessage(){}
 
-void AdminMessage::_init(){
+void NickMessage::_init(){
 
 	/* Check if the raw message is empty */
 	if(_raw.empty()){
@@ -32,7 +32,7 @@ void AdminMessage::_init(){
 		throw string("Not enough parameters supplied in message ") + _raw;
 	}
 	
-	/* Check if the message really is an ADMIN message */
+	/* Check if the message really is an PASS message */
 	if(st.next().substr(1) != COMMAND){
 		throw string("Not a(n) ") + COMMAND + string(" message: ") + _raw;
 	}
@@ -43,11 +43,11 @@ void AdminMessage::_init(){
 	}
 }
 
-string AdminMessage::getPrefix(){
+string NickMessage::getPrefix(){
 	return _prefix;
 }
 
-string AdminMessage::getSenderNick(){
+string NickMessage::getSenderNick(){
 	string retval;
 
 	if(_prefix.length() > 0){
@@ -58,24 +58,24 @@ string AdminMessage::getSenderNick(){
 	
 }
 
-string AdminMessage::getReceiver(){
-	return string("");
-}
-
-string AdminMessage::getCommand(){
+string NickMessage::getCommand(){
 	return COMMAND;
 }
 
-unsigned int AdminMessage::minParams(){
+string NickMessage::getReceiver(){
+	return string("");
+}
+
+unsigned int NickMessage::getMinParams(){
 	return MINPARAMS;
 }
 
 /* %pr = prefix, %cmd = command, %par = params */
-string AdminMessage::format(string format = ""){
+string NickMessage::format(string format = ""){
 	if(format != ""){
 		string::size_type pr_loc = format.find("%pr", 0);
 		if(pr_loc != string::npos){
-			format.replace(pr_loc, 3, _prefix, _prefix.size(), _prefix.size());
+			format.replace(pr_loc, 3, _prefix, _prefix.length(), _prefix.length());
 		}
 
 		string::size_type cmd_loc = format.find("%cmd", 0);
@@ -110,10 +110,10 @@ string AdminMessage::format(string format = ""){
 		
 }
 
-vector<string> AdminMessage::getParams(){
+vector<string> NickMessage::getParams(){
 	return _params;
 }
 
-RFC1459* AdminMessage::getProtocol(){
+RFC1459* NickMessage::getProtocol(){
 	return _protocol;
 }

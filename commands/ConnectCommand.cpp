@@ -3,6 +3,8 @@
 #include "SkaarSocket.h"
 #include "stringtools.h"
 
+const string ConnectCommand::COMMAND = "COMMAND";
+
 ConnectCommand::ConnectCommand(string raw){
 	StringTokenizer st(raw, ' ');
 	string command = st.next();
@@ -55,14 +57,14 @@ bool ConnectCommand::execute(){
 	}
 	
 	if(_port == 0 || _proto.size() == 0){
-		string configport = _handler->getSessionInfo->getConfig()->getValue("servers", _server);
+		string configport = _handler->getSessionInfo()->getConfig()->getValue("servers", _server);
 		
 		if(configport.size() == 0){
 			return false;
 			// XXX log it
 		}
 		_port = atoi(configport.c_str());
-		_proto = _handler->getSessionInfo->getConfig()->getValue("protocols", _server);
+		_proto = _handler->getSessionInfo()->getConfig()->getValue("protocols", _server);
 		
 		if(_proto.size() == 0){
 			return false;
@@ -70,7 +72,7 @@ bool ConnectCommand::execute(){
 		}
 	}
 	
-	SkaarSocket* newsock = new SkaarSocket(_server.c_str(), _port, _proto);
+	SkaarSocket* newsock = new SkaarSocket(const_cast<char*>(_server.c_str()), _port, _proto);
 	
 	if(newsock == 0){
 		return false;

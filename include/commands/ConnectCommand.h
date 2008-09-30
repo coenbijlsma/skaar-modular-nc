@@ -22,7 +22,7 @@ private:
 	string _proto;
 	
 public:
-	static const string COMMAND = "CONNECT";
+	static const string COMMAND;
 	static const int MINPARAMS = 1;
 	static const int MAXPARAMS = 3;
 	

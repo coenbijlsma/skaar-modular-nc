@@ -1,6 +1,8 @@
 #include "JoinMessage.h"
 #include "StringTokenizer.h"
 
+const string JoinMessage::COMMAND = "JOIN";
+
 JoinMessage::JoinMessage(RFC1459* protocol, string raw){
 	_raw = raw;
 	_protocol = protocol;
@@ -56,6 +58,11 @@ string JoinMessage::getSenderNick(){
 	
 }
 
+string JoinMessage::getReceiver(){
+	return string("");
+	// XXX todo
+}
+
 string JoinMessage::getCommand(){
 	return COMMAND;
 }
@@ -69,12 +76,12 @@ string JoinMessage::format(string format = ""){
 	if(format != ""){
 		string::size_type pr_loc = format.find("%pr", 0);
 		if(pr_loc != string::npos){
-			format.replace(pr_loc, 3, _prefix, _prefix.length());
+			format.replace(pr_loc, 3, _prefix, _prefix.length(), _prefix.length());
 		}
 
 		string::size_type cmd_loc = format.find("%cmd", 0);
 		if(cmd_loc != string::npos){
-			format.replace(cmd_loc, 4, COMMAND, COMMAND.length());
+			format.replace(cmd_loc, 4, COMMAND, COMMAND.length(), COMMAND.length());
 		}
 
 		string::size_type par_loc = format.find("%par", 0);
@@ -87,7 +94,7 @@ string JoinMessage::format(string format = ""){
 				params.append(_params.at(i));
 			}
 
-			format.replace(par_loc, 4, params, params.length());
+			format.replace(par_loc, 4, params, params.length(), params.length());
 			return format;
 		}
 	}else{
@@ -96,7 +103,7 @@ string JoinMessage::format(string format = ""){
 			if(i > 0){
 				params.append(" ");
 			}
-			params.append(_params.at(i);
+			params.append(_params.at(i));
 		}
 		return params;
 		

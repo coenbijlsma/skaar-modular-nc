@@ -1,6 +1,6 @@
 /**
- * @file RFC1459User.h
- * @brief Implementation of an user in the RFC1459.
+ * @file NickMessage.h
+ * @brief Implementation for the PASS message of RFC1459
  *
  * Copyright (c) 2008 Coen Bijlsma
  *
@@ -13,46 +13,50 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RFC1459USER_H
-#define RFC1459USER_H
+#ifndef NICKMESSAGE_H
+#define NICKMESSAGE_H
 
 #include <string>
+#include <vector>
+#include "SkaarUser.h"
+#include "RFC1459.h"
 
 using namespace std;
 
-class RFC1459User {
+/**
+ */
+class NickMessage : public AbstractMessage {
 private:
-	static const string _ALLOWED_FLAGS;
-	string _nick;
-	string _realName;
-	string _flags;
+	RFC1459* _protocol;
+	string _raw;
+	string _prefix;
+	vector<string> _params;
+	
+	void _init();
 
-	bool _isLegal(char flag);
 public:
-	static const char NO_FLAGS = '\0';
-	static const char INVISIBLE = 'i';
-	static const char SERVER_NOTICES = 's';
-	static const char WALLOPS = 'w';
-	static const char OPERATOR = 'o';
+	static const string COMMAND;
+	static const unsigned int MINPARAMS = 1;
 	
-	RFC1459User(string name, string realname, string flags);
-	~RFC1459User();
+	NickMessage(RFC1459* protocol, string raw);
+	~NickMessage();
 	
-	string getNick();
+	string getPrefix();
+	string getSenderNick();
+	string getReceiver();
+	string getCommand();
+	unsigned int getMinParams();
 	
-	string getRealName();
+	/**/
+	string format(string format);
+	vector<string> getParams();
 	
-	string getFlags();
-	
-	void setFlag(char flag, bool enabled);
-	
-	bool hasFlag(char flag);
-	
+	RFC1459* getProtocol();
 };
 
-#endif /* RFC1459USER_H */
+#endif /* NICKMESSAGE_H */

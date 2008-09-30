@@ -76,7 +76,9 @@ public:
 	 * the window scrolls down n lines.
 	 * @see man 3 wscrl
 	 */
-	int scroll(int n);
+
+	int nir_scroll(int n);
+	
 };
 
 #endif /* NCursesInputReader_H */

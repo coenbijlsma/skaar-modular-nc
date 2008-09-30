@@ -40,7 +40,7 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "JOIN";
+	static const string COMMAND;
 	static const unsigned int MINPARAMS = 1;
 	
 	JoinMessage(RFC1459* protocol, string raw);

@@ -1,3 +1,13 @@
 #!/bin/bash
 
-g++ -g -I../include/core/ -I../include/config/ -I../include/log/ -I../include/socket/ -I../include/gui/ -I../include/gui/ncurses/ -I../include/gui/term/ -I../include/tools/stringtokenizer/ -combine SessionInfo.cpp ../config/Config.cpp ../config/ConfigSection.cpp ../log/SkaarLog.cpp ../socket/SkaarSocket.cpp SkaarUser.cpp Skaar.cpp ../gui/ncurses/Screen.cpp ../gui/ncurses/ScreenBuffer.cpp ../gui/term/TerminalGUI.cpp ../tools/stringtokenizer/StringTokenizer.cpp main.cpp -lpanel -lncurses -o skaar
+g++ -g -I../include/protocols/ -I../include/tools/stringtokenizer/ -I../include/commands/ -I../include/config/ -I../include/core/ -I../include/gui/ \
+		-I../include/gui/ncurses/ -I../include/gui/term/ \
+		-I../include/log/ -I../include/protocols/ -I../include/protocols/rfc1459/messages/ -I../include/protocols/rfc1459/ -I../include/socket/ \
+		-I../include/tools/stringtokizer/ -I../include/tools/stringtools/ \
+		 -combine SessionInfo.cpp Skaar.cpp SkaarUser.cpp main.cpp ../commands/CommandFactory.cpp ../commands/ConnectCommand.cpp ../config/SkaarConfigSection.cpp \
+		 ../config/SkaarConfig.cpp ../gui/ncurses/NCursesInputReader.cpp ../gui/ncurses/ScreenBuffer.cpp ../gui/ncurses/Screen.cpp ../gui/term/TerminalInputReader.cpp \
+		 ../gui/term/TerminalGUI.cpp ../log/SkaarLog.cpp ../protocols/rfc1459/RFC1459User.cpp ../protocols/rfc1459/RFC1459Channel.cpp \
+		 ../protocols/rfc1459/RFC1459.cpp ../protocols/rfc1459/messages/AdminMessage.cpp ../protocols/rfc1459/messages/JoinMessage.cpp \
+		 ../protocols/rfc1459/messages/PassMessage.cpp ../protocols/rfc1459/messages/PrivmsgMessage.cpp ../protocols/rfc1459/messages/UserMessage.cpp \
+		 ../socket/SkaarSocket.cpp ../tools/stringtokenizer/StringTokenizer.cpp ../tools/stringtools/stringtools.cpp \
+		 -lpthread -lpanel -lncurses -o skaar

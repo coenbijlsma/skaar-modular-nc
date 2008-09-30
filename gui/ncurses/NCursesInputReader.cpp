@@ -2,7 +2,7 @@
 #include "NCursesInputReader.h"
 
 NCursesInputReader::NCursesInputReader(){
-	_input = new_panel( newwin(2, COLS, LINES -2, ) );
+	_input = new_panel( newwin(2, COLS, LINES -2, 0) );
 	scrollok(panel_window(_input), true);
 }
 
@@ -16,7 +16,7 @@ char NCursesInputReader::read(){
 	WINDOW* win = panel_window(_input);
 	char c = wgetch(win);
 	if(c == '\n'){
-		this->scroll(1);
+		this->nir_scroll(1);
 	}
 	return c;
 }
@@ -24,11 +24,12 @@ char NCursesInputReader::read(){
 string NCursesInputReader::readLine(){
 	WINDOW* win = panel_window(_input);
 	string s;
+	char c;
 	
-	while( (char c = wgetch(win)) != _NEWLINE){
+	while( (c = wgetch(win)) != _NEWLINE){
 		s.append(1, c);
 	}
-	this->scroll(1);
+	this->nir_scroll(1);
 	return s;
 }
 
@@ -48,6 +49,6 @@ string NCursesInputReader::read(string delim){
 	return s;
 }
 
-int NCursesInputReader::scroll(int n){
+int NCursesInputReader::nir_scroll(int n){
 	return wscrl(panel_window(_input), n);
 }

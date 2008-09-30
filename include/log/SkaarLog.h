@@ -30,7 +30,7 @@ class SkaarLog {
 private:
 	
 	string _filename;
-	set<string> _entries;
+	vector<string> _entries;
 	
 	/*
 	 * Initializes the logfile for use.

@@ -79,7 +79,7 @@ private:
 	void _init();
 
 public:
-	static const string COMMAND = "USER";
+	static const string COMMAND;
 	static const unsigned int MINPARAMS = 4;
 	
 	UserMessage(RFC1459* protocol, string raw);
