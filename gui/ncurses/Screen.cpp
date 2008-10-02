@@ -89,10 +89,12 @@ void Screen::setActive(bool active){
 		if(show_panel(_panel) == ERR){
 			throw string("Could not show the Screen.");
 		}
+		_active = true;
 	}else{
 		if(hide_panel(_panel) == ERR){
 			throw string("Could not hide the Screen.");
 		}
+		_active = false;
 	}
 	
 	update_panels();
@@ -100,16 +102,7 @@ void Screen::setActive(bool active){
 }
 
 bool Screen::isActive(){
-	switch(panel_hidden(_panel)){
-		case TRUE:
-			return true;
-		case FALSE:
-			return false;
-		case ERR:
-			throw string("No panel is associated to this Screen.");
-		default:
-			return false;
-	}
+	return _active;
 }
 
 void Screen::setReceiver(string recv){

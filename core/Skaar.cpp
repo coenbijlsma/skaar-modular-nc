@@ -34,18 +34,16 @@ void Skaar::_init(){
 		cbreak();
 		// noecho();
 
-		Screen* scr = new Screen("foo");
-		_sessionInfo->setInputReader( (AbstractInputReader*)new NCursesInputReader());
-		if(_sessionInfo->addWindow(scr)){
-			// log it
+		if(_sessionInfo->addWindow(new Screen("foo"))){
+			AbstractGUI* gui = _sessionInfo->getWindowAt(0);
+			_sessionInfo->setInputReader( (AbstractInputReader*)new NCursesInputReader());
 		}else{
 			// log it
 		}
 	}else{
-		TerminalGUI* tgui = new TerminalGUI("foo");
-		_sessionInfo->setInputReader( (AbstractInputReader*)new TerminalInputReader());
-		if(_sessionInfo->addWindow(tgui)){
-			// log it
+		if(_sessionInfo->addWindow(new TerminalGUI("foo"))){
+			AbstractGUI* gui = _sessionInfo->getWindowAt(0);
+			_sessionInfo->setInputReader( (AbstractInputReader*)new TerminalInputReader());
 		}else{
 			// log it
 		}
@@ -56,7 +54,9 @@ void Skaar::_init(){
 	AbstractGUI* gui = _sessionInfo->getWindowAt(0);
 	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port> [proto=rfc1459]] to connect.\n");
 	gui->setReceiver(_sessionInfo->getUser()->getNick());
+	gui->setServer("NONE");
 	gui->setActive(true);
+	_sessionInfo->getInputReader()->setActive(true);
 	_createThreads();
 }
 
@@ -142,16 +142,22 @@ void Skaar::_hndSocketInput(){
 void Skaar::_hndScreenOutput(){
 	while(_continueListening){
 		string line = _sessionInfo->getInputReader()->readLine();
+		_log->append("Line read: " + line);
+		_log->save();
 		string server = _sessionInfo->getActiveWindow()->getServer();
 		SkaarSocket* sock = _connections[server];
+		_log->append("Socket received");
+		_log->save();
 		AbstractGUI* first = _sessionInfo->getWindowAt(0); // for printing statusmessages
-				
-		if(sock == 0){
+		
+		_log->append("Checking socket ..");		
+		_log->save();
+		if(sock == 0 && server != "NONE"){
 			continue;
 		}
 		AbstractProtocol* proto = _protocols[sock->getProtocol()];
 		
-		if(proto == 0){
+		if(proto == 0 && server != "NONE"){
 			continue;
 		}
 		
@@ -184,6 +190,7 @@ void Skaar::_hndScreenOutput(){
 }
  
 Skaar::Skaar(){
+	_continueListening = true;
 	_init();
 }
 

@@ -52,3 +52,18 @@ string NCursesInputReader::read(string delim){
 int NCursesInputReader::nir_scroll(int n){
 	return wscrl(panel_window(_input), n);
 }
+
+void NCursesInputReader::setActive(bool active){
+	if(active){
+		if(show_panel(_input) == ERR){
+			throw string("Could not show the input panel");
+		}
+	}else{
+		if(hide_panel(_input) == ERR){
+			throw string("Could not hide the input panel");
+		}
+	}
+	
+	update_panels();
+	doupdate();
+}

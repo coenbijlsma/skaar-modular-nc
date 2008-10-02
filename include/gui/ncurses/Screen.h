@@ -35,6 +35,7 @@ private:
 	ScreenBuffer* _screenBuffer;
 	string _receiver;
 	string _server;
+	bool _active;
 			
 	/*
 	 * Some initial functions to be called by the 

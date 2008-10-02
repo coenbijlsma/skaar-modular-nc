@@ -39,3 +39,7 @@ string TerminalInputReader::read(string delim){
 	
 	return s;
 }
+
+void TerminalInputReader::setActive(bool active){
+	// bogus
+}

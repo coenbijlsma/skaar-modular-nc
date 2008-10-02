@@ -37,7 +37,7 @@ public:
 	char read();
 	string readLine();
 	string read(string delim);
-	
+	void setActive(bool active);
 };
 
 #endif /* TERMINALINPUTREADER_H */

@@ -51,6 +51,8 @@ public:
 	 * delim occurs.
 	 */
 	virtual string read(string delim) =0;
+	
+	virtual void setActive(bool active) =0;
 };
 
 #endif /* ABSTRACTINPUTREADER_H */

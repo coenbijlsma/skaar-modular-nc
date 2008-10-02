@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv){
 	Skaar* skaar = new Skaar();
-	while(1){}
+//	while(1){}
 	delete skaar;
 	return 0;
 }

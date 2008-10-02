@@ -79,6 +79,7 @@ public:
 
 	int nir_scroll(int n);
 	
+	void setActive(bool active);
 };
 
 #endif /* NCursesInputReader_H */
