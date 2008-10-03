@@ -4,7 +4,7 @@
 
 #include "ConnectCommand.h"
 
-AbstractCommand* CommandFactory::translate(string raw){
+AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 	StringTokenizer st(raw, ' ');
 	
 	string command = st.next();
@@ -18,7 +18,9 @@ AbstractCommand* CommandFactory::translate(string raw){
 		command[i] = toupper(command[i]);
 	}
 	
-	if(command == ConnectCommand::COMMAND){
+	log->append("'" + command + "'");
+	log->save();
+	if(command.compare(ConnectCommand::COMMAND) == 0){
 		return new ConnectCommand(raw);
 	}
 	return (AbstractCommand*)0;

@@ -4,6 +4,7 @@
 #include <string>
 #include "AbstractCommand.h"
 #include "CommandHandler.h"
+#include "SkaarLog.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ using namespace std;
 class ConnectCommand : public AbstractCommand {
 private:
 	CommandHandler* _handler;
+	SkaarLog* _log;
 	string _command;
 	string _raw;
 	string _server;

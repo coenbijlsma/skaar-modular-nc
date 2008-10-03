@@ -3,9 +3,9 @@
 #include "SkaarSocket.h"
 #include "stringtools.h"
 
-const string ConnectCommand::COMMAND = "COMMAND";
+const string ConnectCommand::COMMAND = "CONNECT";
 
-ConnectCommand::ConnectCommand(string raw){
+ConnectCommand::ConnectCommand(SkaarLog* log, string raw){
 	StringTokenizer st(raw, ' ');
 	string command = st.next();
 	
@@ -52,23 +52,25 @@ void ConnectCommand::setCommandHandler(CommandHandler* handler){
 
 bool ConnectCommand::execute(){
 	if(_handler == 0){
+		_log->append("No handler for CONNECT");
+		_log->save();
 		return false;
-		// XXX log it
 	}
 	
 	if(_port == 0 || _proto.size() == 0){
 		string configport = _handler->getSessionInfo()->getConfig()->getValue("servers", _server);
 		
 		if(configport.size() == 0){
+			_log->append("No port defined for CONNECT");
+			_log->save();
 			return false;
-			// XXX log it
 		}
 		_port = atoi(configport.c_str());
 		_proto = _handler->getSessionInfo()->getConfig()->getValue("protocols", _server);
 		
 		if(_proto.size() == 0){
+			_log->append("");
 			return false;
-			// XXX log it
 		}
 	}
 	

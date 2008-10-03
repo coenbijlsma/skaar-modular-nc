@@ -70,6 +70,16 @@ AbstractProtocol* Skaar::_findProtocol(string name){
 	return (*it).second;
 }
 
+SkaarSocket* Skaar::_findSocket(string server){
+	map<string, SkaarSocket*>::iterator it = _connections.find(server);
+	
+	if(it == _connections.end()){
+		return (SkaarSocket*)0;
+	}
+	
+	return (*it).second;
+}
+
 // XXX Not all messages have to be shown on the screen
 void Skaar::_hndSocketInput(){
 	// XXX this while(true)
@@ -142,49 +152,54 @@ void Skaar::_hndSocketInput(){
 void Skaar::_hndScreenOutput(){
 	while(_continueListening){
 		string line = _sessionInfo->getInputReader()->readLine();
-		_log->append("Line read: " + line);
-		_log->save();
 		string server = _sessionInfo->getActiveWindow()->getServer();
-		SkaarSocket* sock = _connections[server];
-		_log->append("Socket received");
-		_log->save();
-		AbstractGUI* first = _sessionInfo->getWindowAt(0); // for printing statusmessages
 		
-		_log->append("Checking socket ..");		
+		// First, check if it's a command
+		_log->append(line);
 		_log->save();
-		if(sock == 0 && server != "NONE"){
-			continue;
-		}
-		AbstractProtocol* proto = _protocols[sock->getProtocol()];
+		AbstractCommand* cmd = CommandFactory::translate(_log, line);
+		AbstractGUI* statuswindow = _sessionInfo->getWindowAt(0);
 		
-		if(proto == 0 && server != "NONE"){
-			continue;
+		if(statuswindow == 0){
+			_log->append("no statuswindow");
+			_log->save();
 		}
 		
-		string msg = proto->toProtocolString(_sessionInfo, line);
-		
-		if(msg.length() == 0){
-			// Check if maybe it's a command
-			AbstractCommand* cmd = CommandFactory::translate(line);
-			
-			if(cmd == 0){
+		if(cmd == 0){
+			_log->append("No command found");
+			_log->save();
+			// Yeah, it's a message!
+			SkaarSocket* sock = _findSocket(server);
+			if(sock == 0){
 				continue;
 			}
-			cmd->setCommandHandler(this);
-			if( ! cmd->execute()){
-				string failcmd("Executing command failed for command ");
-				failcmd.append(line);
-				failcmd.append(1, '\n');
-				
-				first->addContent(failcmd);
+			
+			AbstractProtocol* proto = _findProtocol(sock->getProtocol());
+			if(proto == 0){
+				continue;
 			}
 			
-		}else if( ! sock->sendMessage(msg) ){
-			string failmsg("Could not send message ");
-			failmsg.append(line);
-			failmsg.append(1, '\n');
-			
-			first->addContent(failmsg);
+			string message = proto->toProtocolString(_sessionInfo, line);
+			if( ! sock->sendMessage(message)){
+				string fail("Could not send message " + line);
+				_log->append(fail);
+				fail.append(1, '\n'); // <-- fix this ugly \n
+				statuswindow->addContent(fail);
+			}
+			_log->save();
+		}else{
+			// We have a command
+			cmd->setCommandHandler(this);
+			if( ! cmd->execute()){
+				string fail("Could not execute command " + cmd->getCommand());
+				_log->append(fail);
+				fail.append(1, '\n');
+				statuswindow->addContent(fail);
+				_log->save();
+			}else{
+				_log->append("Executing command successful! (command is " + line + ")");
+				_log->save();
+			}
 		}
 	} /* while(true) */
 }

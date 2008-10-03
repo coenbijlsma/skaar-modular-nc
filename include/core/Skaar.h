@@ -23,6 +23,7 @@ private:
 	map<string, AbstractProtocol*> _protocols;
 	void _init();
 	AbstractProtocol* _findProtocol(string name);
+	SkaarSocket* _findSocket(string server);
 	
 	/* Functions for the threads */
 	void _hndSocketInput();
