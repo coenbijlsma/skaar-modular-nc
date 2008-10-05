@@ -20,7 +20,7 @@ vector<string> RFC1459::registeredMessages(){
 }
 
 bool RFC1459::registerMessage(string message){
-	if(isRegistered(message)){
+	if(isRegisteredMessage(message)){
 		return false;
 	}
 		
@@ -38,7 +38,7 @@ bool RFC1459::unregisterMessage(string message){
 	return false;
 }
 
-bool RFC1459::isRegistered(string message){
+bool RFC1459::isRegisteredMessage(string message){
 	for(int i = 0; i < _registeredMessages.size(); i++){
 		if(_registeredMessages.at(i) == message){
 			return true;
@@ -67,8 +67,16 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 		AdminMessage* m = new AdminMessage(this, raw);
 		
 		/* Register the message if needed */
-		if( ! isRegistered(AdminMessage::COMMAND)){
+		if( ! isRegisteredMessage(AdminMessage::COMMAND)){
 			registerMessage(AdminMessage::COMMAND);
+		}
+		return (AbstractMessage*)m;
+	}
+	if(command == JoinMessage::COMMAND){
+		JoinMessage* m = new JoinMessage(this, raw);
+		
+		if( ! isRegisteredMessage(JoinMessage::COMMAND)){
+			registerMessage(JoinMessage::COMMAND);
 		}
 		return (AbstractMessage*)m;
 	}

@@ -22,6 +22,7 @@
 #define ABSTRACTGUI_H
 
 #include <string>
+#include "SkaarLog.h"
 
 using namespace std;
 
@@ -33,7 +34,9 @@ public:
 	 * Destructor.
 	 */	
 	 virtual ~AbstractGUI() {};
-	
+
+	virtual void setLog(SkaarLog* log) =0;
+		
 	/*
 	 * Adds the provided content string to the
 	 * screen. How this is done depends on the

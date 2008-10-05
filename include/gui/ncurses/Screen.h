@@ -26,6 +26,7 @@
 #include <string>
 #include "AbstractGUI.h"
 #include "ScreenBuffer.h"
+#include "SkaarLog.h"
 
 using namespace std;
 
@@ -36,7 +37,8 @@ private:
 	string _receiver;
 	string _server;
 	bool _active;
-			
+	SkaarLog* _log;
+				
 	/*
 	 * Some initial functions to be called by the 
 	 * constructor.
@@ -66,7 +68,8 @@ public:
 	 * PANEL and the WINDOW that sits therein.
 	 */
 	virtual ~Screen();
-	
+
+	void setLog(SkaarLog* log);	
 	/*
 	 * Returns the PANEL that this Screen writes to.
 	 * You can use this if you want to perform some

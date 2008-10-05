@@ -28,7 +28,7 @@ public:
 	static const int MINPARAMS = 1;
 	static const int MAXPARAMS = 3;
 	
-	ConnectCommand(string raw);
+	ConnectCommand(SkaarLog* log, string raw);
 	~ConnectCommand();
 	
 	string getCommand();

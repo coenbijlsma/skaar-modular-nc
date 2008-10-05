@@ -8,6 +8,7 @@ const string ConnectCommand::COMMAND = "CONNECT";
 ConnectCommand::ConnectCommand(SkaarLog* log, string raw){
 	StringTokenizer st(raw, ' ');
 	string command = st.next();
+	_log = log;
 	
 	if(command[0] != '/'){
 		string fail("Not a command: ");
@@ -67,9 +68,11 @@ bool ConnectCommand::execute(){
 		}
 		_port = atoi(configport.c_str());
 		_proto = _handler->getSessionInfo()->getConfig()->getValue("protocols", _server);
-		
+		_log->append("server " + _server + " has protocol " + _proto);
+		_log->save();
 		if(_proto.size() == 0){
-			_log->append("");
+			_log->append("No protocol found");
+			_log->save();
 			return false;
 		}
 	}
@@ -77,12 +80,16 @@ bool ConnectCommand::execute(){
 	SkaarSocket* newsock = new SkaarSocket(const_cast<char*>(_server.c_str()), _port, _proto);
 	
 	if(newsock == 0){
+		_log->append("No socket created for CONNECT");
+		_log->save();
 		return false;
 		// XXX log it
 	}
 	
 	if( ! _handler->registerAtConnection(newsock)){
 		delete newsock;
+		_log->append("Could not register at connection");
+		_log->save();
 		return false;
 		// XXX log it
 	}

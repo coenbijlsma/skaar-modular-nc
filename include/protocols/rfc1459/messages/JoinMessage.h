@@ -50,7 +50,7 @@ public:
 	string getSenderNick();
 	string getReceiver();
 	string getCommand();
-	unsigned int getMinParams();
+	unsigned int minParams();
 	
 	/**/
 	string format(string format);

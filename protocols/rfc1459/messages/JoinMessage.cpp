@@ -67,7 +67,7 @@ string JoinMessage::getCommand(){
 	return COMMAND;
 }
 
-unsigned int JoinMessage::getMinParams(){
+unsigned int JoinMessage::minParams(){
 	return MINPARAMS;
 }
 

@@ -9,6 +9,10 @@ TerminalGUI::TerminalGUI(){}
 
 TerminalGUI::~TerminalGUI(){}
 
+void TerminalGUI::setLog(SkaarLog* log){
+	_log = log;
+}
+
 void TerminalGUI::addContent(string content){
 	cout << content << endl;
 }

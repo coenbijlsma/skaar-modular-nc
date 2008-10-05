@@ -35,6 +35,7 @@ private:
 	
 	string _server;
 	string _receiver;
+	SkaarLog* _log;
 	
 public:
 
@@ -50,7 +51,9 @@ public:
 	TerminalGUI();
 	
 	virtual ~TerminalGUI();
-	
+
+	void setLog(SkaarLog* log);
+		
 	/*
 	 * Puts the content on the screen.
 	 * In this implementation the screen

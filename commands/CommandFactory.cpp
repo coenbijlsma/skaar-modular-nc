@@ -21,7 +21,7 @@ AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 	log->append("'" + command + "'");
 	log->save();
 	if(command.compare(ConnectCommand::COMMAND) == 0){
-		return new ConnectCommand(raw);
+		return new ConnectCommand(log, raw);
 	}
 	return (AbstractCommand*)0;
 	// XXX the rest

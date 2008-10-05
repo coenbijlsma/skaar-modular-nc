@@ -6,6 +6,8 @@
 #include "TerminalGUI.h"
 #include "CommandFactory.h"
 #include "AbstractCommand.h"
+#include "AbstractProtocol.h"
+#include "RFC1459.h"
 
 #include <iostream> // testing
 #include <pthread.h>
@@ -18,6 +20,9 @@ void Skaar::_init(){
 	/* Create a logfile */
 	_log = new SkaarLog("skaar.log");
 
+	/* BEWARE! THIS IS A VERY UGLY HACK FOR TESTING PURPOSES ONLY!*/
+	_protocols["rfc1459"] = (AbstractProtocol*)new RFC1459();
+	
 	SkaarConfig* config = new SkaarConfig("skaar.conf");
 		
 	SkaarUser* user = new SkaarUser(config->getValue("core", "realname")
@@ -110,7 +115,11 @@ void Skaar::_hndSocketInput(){
 					 * Try to find the correct window, otherwise print the output to
 					 * the screen at(0)
 					 */
-					string receiver = msg->getSenderNick();
+					
+					string receiver("");
+					if(msg != 0){
+						receiver  = msg->getSenderNick();
+					}
 					AbstractGUI* gui;
 					
 					if(receiver.length() == 0){
@@ -137,7 +146,14 @@ void Skaar::_hndSocketInput(){
 						usergui->addContent(infotext);
 					}
 					
-					gui->addContent(msg->format(""));
+					if(msg != 0){
+						gui->addContent(msg->format(""));
+					}else{
+						_log->append("Adding message " + rawmsg + " to gui");
+						_log->save();
+						gui->setLog(_log);
+						gui->addContent(rawmsg);
+					}
 					
 				} /* if(rawmsg.length() > 0) */
 				
@@ -185,6 +201,8 @@ void Skaar::_hndScreenOutput(){
 				_log->append(fail);
 				fail.append(1, '\n'); // <-- fix this ugly \n
 				statuswindow->addContent(fail);
+			}else{
+				_log->append("Message sent: " + message);
 			}
 			_log->save();
 		}else{
@@ -253,6 +271,8 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 	
 	if( ! sock->connected()){
 		if( ! sock->createConnection() ){
+			_log->append("Could not create new connection");
+			_log->save();
 			return false;
 			// XXX log it
 		}
@@ -262,6 +282,8 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 	AbstractProtocol* proto = _findProtocol(sock->getProtocol());
 	
 	if(proto == 0){
+		_log->append("Protocol not found");
+		_log->save();
 		return false;
 		// XXX log it
 	}
@@ -270,6 +292,8 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 
 	for(int i = 0; i < regsequence.size(); i++){	
 		if( ! sock->sendMessage(regsequence.at(i)) ){
+			_log->append("Could not send message " + regsequence.at(i));
+			_log->save();
 			return false;
 			// XXX log it
 		}

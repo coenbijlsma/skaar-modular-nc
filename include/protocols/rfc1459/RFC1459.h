@@ -78,7 +78,7 @@ public:
 	 * Returns whether tme provided message
 	 * is registered here.
 	 */
-	bool isRegistered(string message);
+	bool isRegisteredMessage(string message);
 	
 	/*
 	 * Returns the correct AbstractMessage* for the

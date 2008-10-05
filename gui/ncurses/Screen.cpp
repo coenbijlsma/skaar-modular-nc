@@ -57,10 +57,21 @@ PANEL* Screen::getPANEL(){
 	return _panel;
 }
 
+void Screen::setLog(SkaarLog* log){
+	_log = log;
+}
+
 void Screen::addContent(string content){
 	WINDOW* win = panel_window(_panel);
 	
 	_screenBuffer->put(content);
+	
+	if(_log != 0){
+		if(win == 0){
+			_log->append("WINDOW* is null!");
+		}
+		_log->save();
+	}
 	wprintw(win, content.c_str());
 	wrefresh(win);
 }
