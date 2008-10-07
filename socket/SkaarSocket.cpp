@@ -105,7 +105,7 @@ string SkaarSocket::readMessage(string delim){
 	XXX Maybe fix this? 
 	
 	*/
-	while(true){
+	while(temp_msg.size() <= 512){
 		char* chars = (char*)malloc(513);
 		memset(chars, 0, 513);
 		
@@ -119,9 +119,9 @@ string SkaarSocket::readMessage(string delim){
 				temp_msg.append(chars);
 		}
 		
-		if(temp_msg.length() >= delim.length()){
-			string end(temp_msg.substr(temp_msg.length() - delim.length()) );
-			if(end == delim){
+		if(temp_msg.size() >= delim.size()){
+			if(temp_msg.substr(temp_msg.size() - delim.size()) == delim){
+				free(chars);
 				return temp_msg;
 			}
 		}

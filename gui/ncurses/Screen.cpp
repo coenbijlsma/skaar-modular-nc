@@ -62,6 +62,14 @@ void Screen::setLog(SkaarLog* log){
 }
 
 void Screen::addContent(string content){
+	// for some reason ncurses handles strings containins \r not so well,
+	// so strip it out here
+	if(content.size() != 0){
+		for(string::size_type spos = content.find('\r', 0); spos != string::npos; spos = content.find('\r', 0)){
+			content.erase(spos, 1);
+		}
+	}	
+	
 	WINDOW* win = panel_window(_panel);
 	
 	_screenBuffer->put(content);
@@ -72,7 +80,8 @@ void Screen::addContent(string content){
 		}
 		_log->save();
 	}
-	wprintw(win, content.c_str());
+	
+	waddstr(win, content.c_str());
 	wrefresh(win);
 }
 

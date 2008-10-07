@@ -57,7 +57,7 @@ void Skaar::_init(){
 	/* Get the GUI and put some welcome-test in it.*/
 	// XXX put that in a config file
 	AbstractGUI* gui = _sessionInfo->getWindowAt(0);
-	gui->addContent("Welcome to Skaar.\n type /connect <server> [<port> [proto=rfc1459]] to connect.\n");
+	gui->addContent("Welcome to Skaar.\r\nType /connect <server> [<port> [proto=rfc1459]] to connect.\n");
 	gui->setReceiver(_sessionInfo->getUser()->getNick());
 	gui->setServer("NONE");
 	gui->setActive(true);
@@ -91,6 +91,11 @@ void Skaar::_hndSocketInput(){
 	while(_continueListening){
 		for(map<string, SkaarSocket*>::iterator it = _connections.begin(); it != _connections.end(); it++){
 			SkaarSocket* sock = it->second;
+			
+			if(sock == 0){
+				continue;
+			}
+			
 			AbstractProtocol* proto = _findProtocol(sock->getProtocol());
 			
 			if(proto == 0){
@@ -149,8 +154,6 @@ void Skaar::_hndSocketInput(){
 					if(msg != 0){
 						gui->addContent(msg->format(""));
 					}else{
-						_log->append("Adding message " + rawmsg + " to gui");
-						_log->save();
 						gui->setLog(_log);
 						gui->addContent(rawmsg);
 					}
@@ -171,8 +174,6 @@ void Skaar::_hndScreenOutput(){
 		string server = _sessionInfo->getActiveWindow()->getServer();
 		
 		// First, check if it's a command
-		_log->append(line);
-		_log->save();
 		AbstractCommand* cmd = CommandFactory::translate(_log, line);
 		AbstractGUI* statuswindow = _sessionInfo->getWindowAt(0);
 		
@@ -208,6 +209,8 @@ void Skaar::_hndScreenOutput(){
 		}else{
 			// We have a command
 			cmd->setCommandHandler(this);
+			_log->append("Found command " + line);
+			_log->save();
 			if( ! cmd->execute()){
 				string fail("Could not execute command " + cmd->getCommand());
 				_log->append(fail);

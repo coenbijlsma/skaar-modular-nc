@@ -18,8 +18,6 @@ AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 		command[i] = toupper(command[i]);
 	}
 	
-	log->append("'" + command + "'");
-	log->save();
 	if(command.compare(ConnectCommand::COMMAND) == 0){
 		return new ConnectCommand(log, raw);
 	}

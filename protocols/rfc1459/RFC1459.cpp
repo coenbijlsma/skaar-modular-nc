@@ -170,8 +170,6 @@ vector<string> RFC1459::getRegisterSequence(SessionInfo* sessionInfo){
 }
 
 string RFC1459::getMessageSeparator(){
-	string s;
-	s.append(1, '\r');
-	s.append(1, '\n');
+	string s("\r\n");
 	return s;
 }
