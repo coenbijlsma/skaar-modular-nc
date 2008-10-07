@@ -76,9 +76,11 @@ public:
 	 * the window scrolls down n lines.
 	 * @see man 3 wscrl
 	 */
-
 	int nir_scroll(int n);
 	
+	/*
+	 * @brief Activates the InputReader.
+	 */
 	void setActive(bool active);
 };
 

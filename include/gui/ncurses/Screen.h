@@ -129,9 +129,16 @@ public:
 	 */
 	string getServer();
 	
-	/**/
+	/*
+	 * Sets the name of the server this GUI
+	 * gets messages from.
+	 */
 	void setServer(string server);
 
+	/*
+	 * @brief Creates a new Screen
+	 * Some lame function to create a new Screen
+	 */
 	AbstractGUI* create();	
 };
 

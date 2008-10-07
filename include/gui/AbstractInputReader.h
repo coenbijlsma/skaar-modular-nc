@@ -52,6 +52,12 @@ public:
 	 */
 	virtual string read(string delim) =0;
 	
+	/*
+	 * @brief (de)activates the inputreader.
+	 * Deactivating it only means that it's
+	 * possible for the InputReader to vanish
+	 * into the background.
+	 */
 	virtual void setActive(bool active) =0;
 };
 

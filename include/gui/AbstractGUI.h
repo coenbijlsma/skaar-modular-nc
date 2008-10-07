@@ -33,8 +33,13 @@ public:
 	/*
 	 * Destructor.
 	 */	
-	 virtual ~AbstractGUI() {};
+	virtual ~AbstractGUI() {};
 
+	/*
+	 * @brief Sets the log.
+	 * If no log is provided, the GUI is
+	 * not able to log any messages.
+	 */
 	virtual void setLog(SkaarLog* log) =0;
 		
 	/*

@@ -83,7 +83,6 @@ bool ConnectCommand::execute(){
 		_log->append("No socket created for CONNECT");
 		_log->save();
 		return false;
-		// XXX log it
 	}
 	
 	if( ! _handler->registerAtConnection(newsock)){
@@ -91,7 +90,6 @@ bool ConnectCommand::execute(){
 		_log->append("Could not register at connection");
 		_log->save();
 		return false;
-		// XXX log it
 	}
 	return true;
 }
