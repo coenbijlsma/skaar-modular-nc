@@ -32,8 +32,8 @@ void JoinMessage::_init(){
 		throw string("Not enough parameters supplied in message ") + _raw;
 	}
 	
-	/* Check if the message really is an PASS message */
-	if(st.next().substr(1) != COMMAND){
+	/* Check if the message really is an JOIN message */
+	if(st.next() != COMMAND){
 		throw string("Not a(n) ") + COMMAND + string(" message: ") + _raw;
 	}
 	

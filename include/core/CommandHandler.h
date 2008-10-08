@@ -41,6 +41,10 @@ public:
 	 */
 	virtual bool registerAtConnection(SkaarSocket* sock) =0;
 	
+	/*
+	 * Cleans up the neccessary stuff and exits Skaar.
+	 */
+	virtual void exit() =0;
 };
 
 #endif /* COMMANDHANDLER_H */

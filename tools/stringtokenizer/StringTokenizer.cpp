@@ -38,6 +38,7 @@ StringTokenizer::StringTokenizer(string seq, char delim){
 StringTokenizer::~StringTokenizer(){
 	free(_currentToken);
 	free(_nextToken);
+	free(_sequence);
 }
 
 bool StringTokenizer::hasNext(){

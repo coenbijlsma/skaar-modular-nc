@@ -41,7 +41,7 @@ void Skaar::_init(){
 
 		if(_sessionInfo->addWindow(new Screen("foo"))){
 			AbstractGUI* gui = _sessionInfo->getWindowAt(0);
-			_sessionInfo->setInputReader( (AbstractInputReader*)new NCursesInputReader());
+			_sessionInfo->setInputReader( (AbstractInputReader*)(new NCursesInputReader()));
 		}else{
 			// log it
 		}
@@ -183,22 +183,26 @@ void Skaar::_hndScreenOutput(){
 		}
 		
 		if(cmd == 0){
-			_log->append("No command found");
-			_log->save();
 			// Yeah, it's a message!
 			SkaarSocket* sock = _findSocket(server);
 			if(sock == 0){
+				_log->append("Socket for server " + server + " not found");
+				_log->save();
 				continue;
 			}
 			
 			AbstractProtocol* proto = _findProtocol(sock->getProtocol());
 			if(proto == 0){
+				_log->append("Protocol for server " + server + " not found");
+				_log->save();
 				continue;
 			}
 			
 			string message = proto->toProtocolString(_sessionInfo, line);
+			_log->append("Sending message " + message);
+			_log->save();
 			if( ! sock->sendMessage(message)){
-				string fail("Could not send message " + line);
+				string fail("Could not send message " + message);
 				_log->append(fail);
 				fail.append(1, '\n'); // <-- fix this ugly \n
 				statuswindow->addContent(fail);
@@ -209,8 +213,6 @@ void Skaar::_hndScreenOutput(){
 		}else{
 			// We have a command
 			cmd->setCommandHandler(this);
-			_log->append("Found command " + line);
-			_log->save();
 			if( ! cmd->execute()){
 				string fail("Could not execute command " + cmd->getCommand());
 				_log->append(fail);
@@ -231,9 +233,7 @@ Skaar::Skaar(){
 }
 
 Skaar::~Skaar(){
-	endwin();
-	delete _sessionInfo;
-	delete _log;
+	this->exit();
 }
 
 void Skaar::_createThreads(){
@@ -267,9 +267,10 @@ SessionInfo* Skaar::getSessionInfo(){
 
 bool Skaar::registerAtConnection(SkaarSocket* sock){
 	// first, check of the socket already exists
-	if( _connections.find(sock->getProtocol()) != _connections.end()){
+	if( _connections.find(sock->getHost()) != _connections.end()){
+		_log->append("Already registered at server " + sock->getHost());
+		_log->save();
 		return true;
-		// XXX log that you are already registered
 	}
 	
 	if( ! sock->connected()){
@@ -303,7 +304,32 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 	}
 	
 	// finally, add the socket to the list.
-	_connections[sock->getProtocol()] = sock;
+	_connections[sock->getHost()] = sock;
+	_sessionInfo->getActiveWindow()->setServer(sock->getHost());
 	return true;
+}
+
+void Skaar::exit(){
+	if(_continueListening){
+		if(_sessionInfo->getConfig()->getValue("core", "defaultui") == "ncurses"){
+			endwin();
+		}
+		_continueListening = false;
+		delete _sessionInfo;
+
+		while( ! _connections.empty()){
+			_connections.erase(_connections.begin());
+		}
+		
+		while( ! _protocols.empty()){
+			_protocols.erase(_protocols.begin());
+		}
+	
+		if(_log != 0){
+			_log->append("Exiting...");
+			_log->save();
+			delete _log;
+		}
+	}
 }
 

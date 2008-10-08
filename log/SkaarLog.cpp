@@ -59,7 +59,10 @@ bool SkaarLog::save(){
 	}
 	
 	outfile.close();
-	_entries.clear();
+	
+	while( ! _entries.empty()){
+		_entries.erase(_entries.begin());
+	}
 	return true;
 }
 

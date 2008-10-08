@@ -1,5 +1,7 @@
 #include "RFC1459.h"
 #include "StringTokenizer.h"
+#include "stringtools.h"
+
 #include <cctype> // std::toupper
 #include <stdlib.h>
 
@@ -58,12 +60,10 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 	}
 	
 	/* Make sure the command is in uppercase */
-	for(int i = 0; i < command.length(); i++){
-		command[i] = toupper(command[i]);
-	}
+	command = strtoupper(command);
 		
 	/* And then return the correct message */
-	if(command == AdminMessage::COMMAND){
+	if(command.compare(AdminMessage::COMMAND) == 0){
 		AdminMessage* m = new AdminMessage(this, raw);
 		
 		/* Register the message if needed */
@@ -72,7 +72,7 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 		}
 		return (AbstractMessage*)m;
 	}
-	if(command == JoinMessage::COMMAND){
+	if(command.compare(JoinMessage::COMMAND) == 0){
 		JoinMessage* m = new JoinMessage(this, raw);
 		
 		if( ! isRegisteredMessage(JoinMessage::COMMAND)){
@@ -86,6 +86,37 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 	/* If raw starts with a slash, it contains the command. If not, it's a PRIVMSG */
 	if(raw[0] == '/'){
+		raw = raw.substr(1);
+		
+		StringTokenizer st(raw, ' ');
+		if(st.count() > 0){
+			string message = st.next();
+			message = strtoupper(message);
+			
+			if(message.compare(JoinMessage::COMMAND) == 0){
+				if(st.count() < 2){
+					return string("");
+				}
+				string channels = st.next();
+				string keys("");
+				
+				if(st.count() >= 3){
+					keys = st.next();
+				}
+				
+				string retval(JoinMessage::COMMAND + " ");
+				retval.append(channels + " ");
+				if(keys.size() > 0){
+					retval.append(keys + " ");
+				}
+				retval.append(1, '\r');
+				retval.append(1, '\n');
+				return retval;
+			}
+				
+		}else{
+			return string("");
+		}		
 	}else{
 		/* We have a PRIVMSG */
 		string receiver = sessionInfo->getActiveWindow()->getReceiver();

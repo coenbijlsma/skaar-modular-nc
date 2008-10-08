@@ -4,7 +4,8 @@ g++ -g -I../include/protocols/ -I../include/tools/stringtokenizer/ -I../include/
 		-I../include/gui/ncurses/ -I../include/gui/term/ \
 		-I../include/log/ -I../include/protocols/ -I../include/protocols/rfc1459/messages/ -I../include/protocols/rfc1459/ -I../include/socket/ \
 		-I../include/tools/stringtokizer/ -I../include/tools/stringtools/ \
-		 -combine SessionInfo.cpp Skaar.cpp SkaarUser.cpp main.cpp ../commands/CommandFactory.cpp ../commands/ConnectCommand.cpp ../config/SkaarConfigSection.cpp \
+		 -combine SessionInfo.cpp Skaar.cpp SkaarUser.cpp main.cpp ../commands/CommandFactory.cpp ../commands/ConnectCommand.cpp ../commands/ExitCommand.cpp \
+		  ../config/SkaarConfigSection.cpp \
 		 ../config/SkaarConfig.cpp ../gui/ncurses/NCursesInputReader.cpp ../gui/ncurses/ScreenBuffer.cpp ../gui/ncurses/Screen.cpp ../gui/term/TerminalInputReader.cpp \
 		 ../gui/term/TerminalGUI.cpp ../log/SkaarLog.cpp ../protocols/rfc1459/RFC1459User.cpp ../protocols/rfc1459/RFC1459Channel.cpp \
 		 ../protocols/rfc1459/RFC1459.cpp ../protocols/rfc1459/messages/AdminMessage.cpp ../protocols/rfc1459/messages/JoinMessage.cpp \

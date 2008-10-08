@@ -39,6 +39,8 @@ public:
 	
 	/* Callback-method for commands */
 	bool registerAtConnection(SkaarSocket* sock);
+	
+	void exit();
 };
 
 #endif

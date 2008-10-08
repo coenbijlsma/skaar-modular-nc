@@ -78,11 +78,16 @@ void Screen::addContent(string content){
 		if(win == 0){
 			_log->append("WINDOW* is null!");
 		}
+		if(content.size() == 0){
+			_log->append("Not appending empty string.");
+		}
 		_log->save();
 	}
 	
-	waddstr(win, content.c_str());
-	wrefresh(win);
+	if(content.size() > 0){
+		waddstr(win, content.c_str());
+		wrefresh(win);
+	}
 }
 
 bool Screen::redraw(){

@@ -3,6 +3,7 @@
 #include <ctype.h> // toupper
 
 #include "ConnectCommand.h"
+#include "ExitCommand.h"
 
 AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 	StringTokenizer st(raw, ' ');
@@ -20,6 +21,8 @@ AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 	
 	if(command.compare(ConnectCommand::COMMAND) == 0){
 		return new ConnectCommand(log, raw);
+	}else if(command.compare(ExitCommand::COMMAND) == 0){
+		return new ExitCommand(log, raw);
 	}
 	return (AbstractCommand*)0;
 	// XXX the rest
