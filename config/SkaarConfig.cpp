@@ -30,13 +30,11 @@ SkaarConfig::SkaarConfig(string filename){
 SkaarConfig::~SkaarConfig(){
 	writeConfig();
 	
-	map<string, SkaarConfigSection*>::iterator iter;
-	for(iter = _sections.begin(); iter != _sections.end(); iter++){
-		SkaarConfigSection* sec = _sections[iter->first];
+	while( ! _sections.empty() ){
+		SkaarConfigSection* sec = (_sections.begin())->second;
+		_sections.erase(_sections.begin());
 		delete sec;
 	}
-	
-	_sections.clear();
 }
 
 void SkaarConfig::_init(){

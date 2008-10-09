@@ -47,7 +47,7 @@ string ConnectCommand::getCommand(){
 	return _command;
 }
 
-void ConnectCommand::setCommandHandler(CommandHandler* handler){
+void ConnectCommand::setCallbackHandler(SkaarCallbackHandler* handler){
 	_handler = handler;
 }
 

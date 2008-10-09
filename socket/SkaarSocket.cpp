@@ -111,8 +111,10 @@ string SkaarSocket::readMessage(string delim){
 		
 		switch(recv(_sockfd, chars, 512, 0)){
 			case 0:
+				free(chars);
 				return temp_msg;
 			case -1:
+				free(chars);
 				perror("recv");
 				return temp_msg;
 			default:
@@ -124,6 +126,9 @@ string SkaarSocket::readMessage(string delim){
 				free(chars);
 				return temp_msg;
 			}
+		}
+		if(chars != 0){
+			free(chars);
 		}
 	}
 	

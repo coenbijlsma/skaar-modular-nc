@@ -37,7 +37,7 @@ string ExitCommand::getCommand(){
 	return _command;
 }
 
-void ExitCommand::setCommandHandler(CommandHandler* handler){
+void ExitCommand::setCallbackHandler(SkaarCallbackHandler* handler){
 	_handler = handler;
 }
 

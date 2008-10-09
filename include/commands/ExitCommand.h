@@ -23,7 +23,7 @@
 
 #include <string>
 #include "AbstractCommand.h"
-#include "CommandHandler.h"
+#include "SkaarCallbackHandler.h"
 #include "SkaarLog.h"
 
 using namespace std;
@@ -33,7 +33,7 @@ using namespace std;
  */
 class ExitCommand : public AbstractCommand {
 private:
-	CommandHandler* _handler;
+	SkaarCallbackHandler* _handler;
 	SkaarLog* _log;
 	string _command;
 	string _raw;
@@ -59,12 +59,12 @@ public:
 	string getCommand();
 	
 	/*
-	 * @brief Sets the CommandHandler.
+	 * @brief Sets the SkaarCallbackHandler.
 	 * This actually is an instance of Skaar, 
 	 * but with limited possibilities, because you don't
 	 * need them all here.
 	 */
-	void setCommandHandler(CommandHandler* handler);
+	void setCallbackHandler(SkaarCallbackHandler* handler);
 	
 	/*
 	 * @brief Executes the Command.

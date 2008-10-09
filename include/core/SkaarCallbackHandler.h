@@ -1,6 +1,6 @@
 /**
- * @file CommandHandler.h
- * @brief Interface for use in commands.
+ * @file SkaarCallbackHandler.h
+ * @brief Interface for use in commands and actions.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMMANDHANDLER_H
-#define COMMANDHANDLER_H
+#ifndef SKAARCALLBACKHANDLER_H
+#define SKAARCALLBACKHANDLER_H
 
 #include "SkaarSocket.h"
 #include "SessionInfo.h"
 
 using namespace std;
 
-class CommandHandler {
+class SkaarCallbackHandler {
 public:
-	virtual ~CommandHandler(){}
+	virtual ~SkaarCallbackHandler(){}
 	
 	/*
 	 * Returns the current SessionInfo
@@ -47,4 +47,4 @@ public:
 	virtual void exit() =0;
 };
 
-#endif /* COMMANDHANDLER_H */
+#endif /* SKAARCALLBACKHANDLER_H */

@@ -5,7 +5,9 @@ SkaarConfigSection::SkaarConfigSection(string name){
 	_name = name;
 }
 
-SkaarConfigSection::~SkaarConfigSection(){}
+SkaarConfigSection::~SkaarConfigSection(){
+	_entries.clear();
+}
 
 string SkaarConfigSection::name(){
 	return _name;

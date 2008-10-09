@@ -11,7 +11,17 @@ SessionInfo::SessionInfo(SkaarUser* user, SkaarConfig* config){
 	_config = config;
 }
 
-SessionInfo::~SessionInfo(){}
+SessionInfo::~SessionInfo(){
+	delete _user;
+	delete _config;
+	delete _inputReader;
+	
+	while( ! _windowlist.empty() ){
+		AbstractGUI* gui = *(_windowlist.begin());
+		_windowlist.erase(_windowlist.begin());
+		delete gui;
+	}
+}
 
 SkaarUser* SessionInfo::getUser(){
 	return _user;

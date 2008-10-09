@@ -64,9 +64,9 @@ int StringTokenizer::count(){
 }
 
 string StringTokenizer::next(){
-	char* ptr;
-	char* ptr2;
-	char* retval;
+	char* ptr =0;
+	char* ptr2 =0;
+	char* retval =0;
 	
 	if(_nextToken == 0){
 		return string();
@@ -109,7 +109,10 @@ string StringTokenizer::next(){
 	retval = (char*)malloc(strlen(_currentToken) +1);
 	memset(retval, 0, strlen(_currentToken) +1);
 	strcpy(retval, _currentToken);
-	return string(retval);
+	
+	string ret(retval);
+	free(retval);
+	return ret;
 }
 
 

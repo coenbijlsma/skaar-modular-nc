@@ -8,11 +8,11 @@
 #include "SkaarConfig.h"
 #include "SkaarLog.h"
 #include "SkaarSocket.h"
-#include "CommandHandler.h"
+#include "SkaarCallbackHandler.h"
 
 using namespace std;
 
-class Skaar : public CommandHandler {
+class Skaar : public SkaarCallbackHandler {
 private:
 	bool _continueListening;
 	
@@ -37,7 +37,7 @@ public:
 
 	SessionInfo* getSessionInfo();
 	
-	/* Callback-method for commands */
+	/* Callback-methods for commands and actions */
 	bool registerAtConnection(SkaarSocket* sock);
 	
 	void exit();

@@ -153,6 +153,7 @@ void Skaar::_hndSocketInput(){
 					
 					if(msg != 0){
 						gui->addContent(msg->format(""));
+						delete msg;
 					}else{
 						gui->setLog(_log);
 						gui->addContent(rawmsg);
@@ -212,7 +213,7 @@ void Skaar::_hndScreenOutput(){
 			_log->save();
 		}else{
 			// We have a command
-			cmd->setCommandHandler(this);
+			cmd->setCallbackHandler(this);
 			if( ! cmd->execute()){
 				string fail("Could not execute command " + cmd->getCommand());
 				_log->append(fail);
@@ -223,6 +224,7 @@ void Skaar::_hndScreenOutput(){
 				_log->append("Executing command successful! (command is " + line + ")");
 				_log->save();
 			}
+			delete cmd;
 		}
 	} /* while(true) */
 }
@@ -315,14 +317,22 @@ void Skaar::exit(){
 			endwin();
 		}
 		_continueListening = false;
-		delete _sessionInfo;
+		
+		if(_sessionInfo != 0){ delete _sessionInfo; }
 
 		while( ! _connections.empty()){
-			_connections.erase(_connections.begin());
+			map<string, SkaarSocket*>::iterator sit = _connections.begin();
+			
+			SkaarSocket* sock = sit->second;
+			_connections.erase(sit);
+			delete sock;
 		}
 		
 		while( ! _protocols.empty()){
-			_protocols.erase(_protocols.begin());
+			map<string, AbstractProtocol*>::iterator pit = _protocols.begin();
+			AbstractProtocol* proto = pit->second;
+			_protocols.erase(pit);
+			delete proto;
 		}
 	
 		if(_log != 0){
@@ -330,6 +340,8 @@ void Skaar::exit(){
 			_log->save();
 			delete _log;
 		}
+		
+		
 	}
 }
 

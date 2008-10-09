@@ -21,7 +21,7 @@
 #ifndef ABSTRACTCOMMAND_H
 #define ABSTRACTCOMMAND_H
 
-#include "CommandHandler.h"
+#include "SkaarCallbackHandler.h"
 #include <string>
 
 using namespace std;
@@ -42,11 +42,11 @@ public:
 	virtual string getCommand() =0;
 	
 	/*
-	 * @brief Sets the CommandHandler
-	 * The CommandHandler can provide information to the command
+	 * @brief Sets the SkaarCallbackHandler
+	 * The SkaarCallbackHandler can provide information to the command
 	 * when it is executed.
 	 */
-	virtual void setCommandHandler(CommandHandler* handler) =0;
+	virtual void setCallbackHandler(SkaarCallbackHandler* handler) =0;
 	
 	/*
 	 * @brief Executes the command.
