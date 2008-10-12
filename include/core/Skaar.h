@@ -4,6 +4,7 @@
 #include <map>
 
 #include "AbstractProtocol.h"
+#include "AbstractAction.h"
 #include "SessionInfo.h"
 #include "SkaarConfig.h"
 #include "SkaarLog.h"
@@ -20,6 +21,7 @@ private:
 	SessionInfo* _sessionInfo;
 	map<string, SkaarSocket*> _connections;
 	map<string, AbstractProtocol*> _protocols;
+	vector<AbstractAction*> _actions;
 	void _init();
 	AbstractProtocol* _findProtocol(string name);
 	SkaarSocket* _findSocket(string server);
@@ -37,7 +39,7 @@ public:
 
 	SessionInfo* getSessionInfo();
 	
-	/* Callback-methods for commands and actions */
+	/* Callback-methods for actions */
 	bool registerAtConnection(SkaarSocket* sock);
 	
 	void exit();
