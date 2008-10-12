@@ -1,6 +1,6 @@
 #include "ScreenBuffer.h"
 
-ScreenBuffer::ScreenBuffer(int maxlines){
+ScreenBuffer::ScreenBuffer(unsigned int maxlines){
 	_maxlines = maxlines;
 }
 
@@ -13,9 +13,9 @@ void ScreenBuffer::put(string line){
 }
 
 /* zero-based linepos */
-string ScreenBuffer::get(int linepos){
-	if( (_maxlines >  0) && (linepos > (_maxlines -1)) || linepos < 0 || linepos > _lines.size() ){
-		return string();
+string ScreenBuffer::get(unsigned int linepos){
+	if( (linepos > (_maxlines -1)) || linepos > _lines.size() ){
+		return string("");
 	}
 	
 	return _lines.at(linepos);

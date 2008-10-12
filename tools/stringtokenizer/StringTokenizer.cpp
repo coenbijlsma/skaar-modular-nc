@@ -52,7 +52,7 @@ int StringTokenizer::count(){
 	if(_count == 0){
 		int tok = 1;
 
-		for(int i = 0; i <= strlen(_sequence); i++){
+		for(unsigned int i = 0; i <= strlen(_sequence); i++){
 			if(_sequence[i] == _delimeter){
 				tok++;
 			}

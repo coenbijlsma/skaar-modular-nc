@@ -74,7 +74,7 @@ public:
 	 * position is not in the list of windows,
 	 * an (AbstractGUI*)0 is returned.
 	 */
-	AbstractGUI* getWindowAt(int pos);
+	AbstractGUI* getWindowAt(unsigned int pos);
 	
 	/*
 	 * Returns the AbstractGUI* that was created to

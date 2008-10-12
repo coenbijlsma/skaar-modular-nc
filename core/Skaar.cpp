@@ -40,14 +40,12 @@ void Skaar::_init(){
 		// noecho();
 
 		if(_sessionInfo->addWindow(new Screen("foo"))){
-			AbstractGUI* gui = _sessionInfo->getWindowAt(0);
 			_sessionInfo->setInputReader( (AbstractInputReader*)(new NCursesInputReader()));
 		}else{
 			// log it
 		}
 	}else{
 		if(_sessionInfo->addWindow(new TerminalGUI("foo"))){
-			AbstractGUI* gui = _sessionInfo->getWindowAt(0);
 			_sessionInfo->setInputReader( (AbstractInputReader*)new TerminalInputReader());
 		}else{
 			// log it
@@ -296,7 +294,7 @@ bool Skaar::registerAtConnection(SkaarSocket* sock){
 	
 	vector<string> regsequence = proto->getRegisterSequence(_sessionInfo);
 
-	for(int i = 0; i < regsequence.size(); i++){	
+	for(unsigned int i = 0; i < regsequence.size(); i++){	
 		if( ! sock->sendMessage(regsequence.at(i)) ){
 			_log->append("Could not send message " + regsequence.at(i));
 			_log->save();

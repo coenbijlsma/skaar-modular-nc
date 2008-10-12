@@ -3,7 +3,7 @@
 const string RFC1459User::_ALLOWED_FLAGS = "iwso";
 
 RFC1459User::RFC1459User(string nick, string realName, string flags){
-	for(int i = 0; i < flags.size(); i++){
+	for(unsigned int i = 0; i < flags.size(); i++){
 		if( ! _isLegal(flags[i]) ){
 			throw string("Invalid flag");
 		}

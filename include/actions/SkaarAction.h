@@ -6,7 +6,9 @@ public:
 
 	virtual ~SkaarAction() {}
 	
-	virtual 
+	virtual void setCallbackHandler(CallbackHandler* handler);
+	
+	virtual bool execute();
 };
 
 #endif /* SKAARACTION_H */

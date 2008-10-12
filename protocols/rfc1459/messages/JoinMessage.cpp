@@ -19,7 +19,7 @@ void JoinMessage::_init(){
 	}
 	
 	StringTokenizer st(_raw, ' ');
-	int paramcount = (st.count() -1); // because the command doesn't count
+	unsigned int paramcount = (st.count() -1); // because the command doesn't count
 	
 	/* Do we have a prefix? */
 	if(_raw[0] == ':'){
@@ -87,7 +87,7 @@ string JoinMessage::format(string format = ""){
 		string::size_type par_loc = format.find("%par", 0);
 		if(par_loc != string::npos){
 			string params;
-			for(int i = 0; i < _params.size(); i++){
+			for(unsigned int i = 0; i < _params.size(); i++){
 				if( i > 0){
 					params.append(" ");
 				}
@@ -99,7 +99,7 @@ string JoinMessage::format(string format = ""){
 		}
 	}else{
 		string params;
-		for(int i = 0; i < _params.size(); i++){
+		for(unsigned int i = 0; i < _params.size(); i++){
 			if(i > 0){
 				params.append(" ");
 			}
@@ -108,7 +108,8 @@ string JoinMessage::format(string format = ""){
 		return params;
 		
 	}
-		
+	
+	return string("");
 }
 
 vector<string> JoinMessage::getParams(){

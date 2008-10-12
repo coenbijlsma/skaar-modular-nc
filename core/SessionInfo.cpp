@@ -32,7 +32,7 @@ SkaarConfig* SessionInfo::getConfig(){
 }
 
 AbstractGUI* SessionInfo::getActiveWindow(){
-	for(int i = 0; i < _windowlist.size(); i++){
+	for(unsigned int i = 0; i < _windowlist.size(); i++){
 		AbstractGUI* ag = _windowlist.at(i);
 		if(ag->isActive()){
 			return ag;
@@ -41,7 +41,7 @@ AbstractGUI* SessionInfo::getActiveWindow(){
 	return (AbstractGUI*)0;
 }
 
-AbstractGUI* SessionInfo::getWindowAt(int pos){
+AbstractGUI* SessionInfo::getWindowAt(unsigned int pos){
 	if(pos >= 0 && pos < _windowlist.size()){
 		return _windowlist.at(pos);
 	}else if(pos == _windowlist.size()){
@@ -56,7 +56,7 @@ AbstractGUI* SessionInfo::getWindowAt(int pos){
 }
 
 AbstractGUI* SessionInfo::getWindowFor(string receiver){
-	for(int i = 0; i < _windowlist.size(); i++){
+	for(unsigned int i = 0; i < _windowlist.size(); i++){
 		AbstractGUI* gui = _windowlist.at(i);
 		if( gui->getReceiver() == receiver){
 			return gui;
@@ -74,7 +74,7 @@ vector<AbstractGUI*> SessionInfo::getWindowList(){
 }
 
 bool SessionInfo::addWindow(AbstractGUI* window){
-	for(int i = 0; i < _windowlist.size(); i++){
+	for(unsigned int i = 0; i < _windowlist.size(); i++){
 		if(_windowlist.at(i) == window){
 			return false;
 		}

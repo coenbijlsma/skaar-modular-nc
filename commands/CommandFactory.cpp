@@ -15,7 +15,7 @@ AbstractCommand* CommandFactory::translate(SkaarLog* log, string raw){
 	}
 	command = command.substr(1);
 	
-	for(int i = 0; i < command.size(); i++){
+	for(unsigned int i = 0; i < command.size(); i++){
 		command[i] = toupper(command[i]);
 	}
 	

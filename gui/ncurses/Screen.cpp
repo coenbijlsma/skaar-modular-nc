@@ -10,6 +10,7 @@ void Screen::_init(){
 	
 	// Enable scrolling
 	scrollok(panel_window(_panel), true);
+	_log = 0;
 }
 
 Screen::Screen(string server, int lines, int cols, int y, int x ){

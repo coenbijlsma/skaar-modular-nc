@@ -41,7 +41,7 @@ bool RFC1459::unregisterMessage(string message){
 }
 
 bool RFC1459::isRegisteredMessage(string message){
-	for(int i = 0; i < _registeredMessages.size(); i++){
+	for(unsigned int i = 0; i < _registeredMessages.size(); i++){
 		if(_registeredMessages.at(i) == message){
 			return true;
 		}
@@ -80,7 +80,8 @@ AbstractMessage* RFC1459::translateIncoming(string raw){
 		}
 		return (AbstractMessage*)m;
 	}
-	/* XXX */
+	/* XXX */	
+	return (AbstractMessage*)0;
 }
 
 string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
@@ -132,7 +133,7 @@ string RFC1459::toProtocolString(SessionInfo* sessionInfo, string raw){
 }
 
 void RFC1459::addJoinedChannel(RFC1459Channel* chan){
-	for(int i = 0; i < _joinedChannels.size(); i++){
+	for(unsigned int i = 0; i < _joinedChannels.size(); i++){
 		if(_joinedChannels.at(i)->getName() == chan->getName()){
 			return;
 		}

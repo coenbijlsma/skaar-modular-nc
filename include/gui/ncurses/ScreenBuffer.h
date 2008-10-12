@@ -39,13 +39,13 @@ private:
 	 * default (-1), the mamimum number of lines is equal to 
 	 * vector.max_size().
 	 */
-	int _maxlines; 
+	unsigned int _maxlines; 
 	
 	/* Contains the lines for the Screen */
 	vector<string> _lines;
 	
 public:
-	ScreenBuffer(int maxlines = -1);
+	ScreenBuffer(unsigned int maxlines = 0);
 	~ScreenBuffer();
 	
 	/* Adds a line to the buffer */
@@ -55,7 +55,7 @@ public:
 	 * Returns the line at position linepos, or an
 	 * empty string if the linepos doesn't exist.
 	 */
-	string get(int linepos);
+	string get(unsigned int linepos);
 	
 	/*
 	 * Returns all the lines contained in the buffer.

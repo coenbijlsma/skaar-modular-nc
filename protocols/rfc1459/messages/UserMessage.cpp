@@ -19,7 +19,10 @@ void UserMessage::_init(){
 	}
 	
 	StringTokenizer st(_raw, ' ');
-	int paramcount = (st.count() -1); // because the command doesn't count
+	if(st.count() == 0){
+		return;
+	}
+	unsigned int paramcount = (st.count() -1); // because the command doesn't count
 	
 	/* Do we have a prefix? */
 	if(_raw[0] == ':'){
@@ -38,7 +41,7 @@ void UserMessage::_init(){
 	}
 	
 	/* Read the parameters */
-	for(int i = 0; i < (MINPARAMS -1); i++){
+	for(unsigned int i = 0; i < (MINPARAMS -1); i++){
 		_params.push_back(st.next());
 	}
 	
@@ -96,7 +99,7 @@ string UserMessage::format(string format = ""){
 		string::size_type par_loc = format.find("%par", 0);
 		if(par_loc != string::npos){
 			string params;
-			for(int i = 0; i < _params.size(); i++){
+			for(unsigned int i = 0; i < _params.size(); i++){
 				if( i > 0){
 					params.append(" ");
 				}
@@ -108,7 +111,7 @@ string UserMessage::format(string format = ""){
 		}
 	}else{
 		string params;
-		for(int i = 0; i < _params.size(); i++){
+		for(unsigned int i = 0; i < _params.size(); i++){
 			if(i > 0){
 				params.append(" ");
 			}
@@ -117,7 +120,7 @@ string UserMessage::format(string format = ""){
 		return params;
 		
 	}
-		
+	return string("");	
 }
 
 vector<string> UserMessage::getParams(){

@@ -86,7 +86,7 @@ bool SkaarSocket::sendMessage(string msg){
 	}
 	
 	if( (bytes_sent = send(_sockfd, msg.c_str(), strlen(msg.c_str()), 0)) == -1 
-		|| bytes_sent != strlen(msg.c_str()) ){
+		|| bytes_sent != (int)strlen(msg.c_str()) ){
 		perror("send");
 		return false;
 	}

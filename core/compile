@@ -1,6 +1,6 @@
 #!/bin/bash
 
-g++ -g -I../include/protocols/ -I../include/tools/stringtokenizer/ -I../include/commands/ -I../include/config/ -I../include/core/ -I../include/gui/ \
+g++ -g -Wall -I../include/protocols/ -I../include/tools/stringtokenizer/ -I../include/commands/ -I../include/config/ -I../include/core/ -I../include/gui/ \
 		-I../include/gui/ncurses/ -I../include/gui/term/ \
 		-I../include/log/ -I../include/protocols/ -I../include/protocols/rfc1459/messages/ -I../include/protocols/rfc1459/ -I../include/socket/ \
 		-I../include/tools/stringtokizer/ -I../include/tools/stringtools/ \

@@ -4,7 +4,7 @@ const string RFC1459Channel::_ALLOWED_FLAGS = "opsitnmbv";
 const string RFC1459Channel::_ALLOWED_TYPES = "&#";
 
 RFC1459Channel::RFC1459Channel(char type, string name, unsigned int limit, string key, string flags){
-	for(int i = 0; i < flags.length(); i++){
+	for(unsigned int i = 0; i < flags.length(); i++){
 		if( ! _isLegal(flags[i]) ){
 			throw string("Invalid flag");
 		}
@@ -73,7 +73,7 @@ void RFC1459Channel::setFlag(char flag, bool enabled){
 }
 
 void RFC1459Channel::addUser(RFC1459User* user){
-	for(int i = 0; i < _users.size(); i++){
+	for(unsigned int i = 0; i < _users.size(); i++){
 		if(_users.at(i) == user){
 			return;
 		}

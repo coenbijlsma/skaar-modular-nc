@@ -36,10 +36,11 @@ string SkaarLog::_getDateTime(string format = "%Y-%m-%d %H:%M:%S"){
 }
 
 void SkaarLog::append(string log, loglevel_t severity){
-	ostringstream _entry;
+	ostringstream entry;
 	
-	_entry << _getDateTime() << "\t" << severity << "\t" << log;
-	_entries.push_back(_entry.str());
+	entry << _getDateTime() << "\t" << severity << "\t" << log;
+	string str = entry.str();
+	_entries.push_back(str);
 }
 
 void SkaarLog::append(const char* log, loglevel_t severity){
@@ -54,7 +55,7 @@ bool SkaarLog::save(){
 		return false;
 	}
 	
-	for(int i = 0; i < _entries.size(); i++){
+	for(unsigned int i = 0; i < _entries.size(); i++){
 		outfile << _entries.at(i) << endl;
 	}
 	

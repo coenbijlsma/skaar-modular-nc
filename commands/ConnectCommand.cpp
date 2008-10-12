@@ -33,6 +33,8 @@ ConnectCommand::ConnectCommand(SkaarLog* log, string raw){
 	
 	if(st.hasNext()){
 		_port = atoi( (st.next()).c_str());
+	}else{
+		_port = 0;
 	}
 	if(st.hasNext()){
 		_proto = st.next();
